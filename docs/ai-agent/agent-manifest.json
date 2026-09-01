@@ -1,0 +1,132 @@
+{
+  "version": "1.0.0",
+  "name": "starbear-agent",
+  "tools": [
+    {
+      "name": "send_request",
+      "description": "Send an HTTP request. Headers/body are JSON. Vars are interpolated server-side. Returns {status, headers, body, latencyMs, size}.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "method": {
+            "type": "string",
+            "enum": [
+              "GET",
+              "POST",
+              "PUT",
+              "PATCH",
+              "DELETE",
+              "HEAD",
+              "OPTIONS"
+            ]
+          },
+          "url": {
+            "type": "string"
+          },
+          "headers": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "query": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "body": {
+            "type": "string"
+          },
+          "auth": {
+            "type": "object"
+          },
+          "timeoutMs": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "method",
+          "url"
+        ]
+      }
+    },
+    {
+      "name": "run_test_case",
+      "description": "Run an existing test case by its id. Returns {status, response?, assertionsResult[], error?}.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "testCaseId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "testCaseId"
+        ]
+      }
+    },
+    {
+      "name": "save_request",
+      "description": "Save a new HTTP request into a collection. Returns {id}.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "collectionId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "method": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "headers": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "body": {
+            "type": "string"
+          },
+          "auth": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "collectionId",
+          "name",
+          "method",
+          "url"
+        ]
+      }
+    },
+    {
+      "name": "list_collections",
+      "description": "List all collections.",
+      "parameters": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "search_requests",
+      "description": "Search requests by name or URL substring. Returns up to 20 matches.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    }
+  ]
+}
