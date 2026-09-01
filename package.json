@@ -28,6 +28,7 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx scripts/migrate.ts",
     "db:seed": "tsx scripts/seed.ts",
+    "db:reset": "tsx scripts/reset-db.ts",
     "gen:agent-manifest": "tsx scripts/gen-agent-manifest.ts"
   },
   "dependencies": {
