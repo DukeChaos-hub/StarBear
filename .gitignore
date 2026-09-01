@@ -40,3 +40,6 @@ pnpm-debug.log*
 
 # OS generated
 desktop.ini
+
+.commit-msg.txt
+
