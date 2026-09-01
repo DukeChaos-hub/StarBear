@@ -17,6 +17,11 @@ export async function GET() {
     activeProvider: s.activeProvider,
     modelByProvider: s.modelByProvider,
     baseUrlByProvider: s.baseUrlByProvider,
+    keySetByProvider: Object.fromEntries(
+      Object.keys({ ...s.modelByProvider, ...s.baseUrlByProvider, ...s.encryptedKeys }).map(
+        (p) => [p, Boolean(s.encryptedKeys[p])],
+      ),
+    ),
   });
 }
 
@@ -26,12 +31,25 @@ export async function POST(req: NextRequest) {
   const master = ensureMasterKey();
   const encrypted: Record<string, string> = {};
   for (const [prov, key] of Object.entries(parsed.data.apiKeys)) {
+    // Empty string means "clear this provider's key".
+    if (key === '') continue;
     if (key) encrypted[prov] = encryptKey(key, master);
+  }
+  // If the user passed any empty-string key, start from the existing encrypted
+  // map and remove those providers.
+  let nextEncrypted: Record<string, string> = encrypted;
+  const clearProviders = Object.entries(parsed.data.apiKeys)
+    .filter(([, v]) => v === '')
+    .map(([k]) => k);
+  if (clearProviders.length > 0) {
+    const current = await getSettings();
+    nextEncrypted = { ...current.encryptedKeys };
+    for (const p of clearProviders) delete nextEncrypted[p];
   }
   await saveSettings({
     activeProvider: parsed.data.activeProvider,
     modelByProvider: JSON.stringify(parsed.data.models),
-    encryptedKeys: JSON.stringify(encrypted),
+    encryptedKeys: JSON.stringify(nextEncrypted),
     baseUrlByProvider: JSON.stringify(parsed.data.baseUrls),
     masterKeyCheck: 'ok',
   });
