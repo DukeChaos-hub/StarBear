@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build
+.next/
+out/
+dist/
+build/
+*.tsbuildinfo
+
+# Test
+coverage/
+playwright-report/
+test-results/
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/*
+!.vscode/settings.json
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# StarBear data (local)
+.starbear/
+*.sqlite
+*.sqlite-journal
+
+# OS generated
+desktop.ini
