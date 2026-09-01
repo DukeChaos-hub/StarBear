@@ -1,8 +1,8 @@
 const VAR_RE = /\{\{\s*([A-Za-z_][A-Za-z0-9_]*)\s*\}\}/g;
 
 export class UnresolvedVariableError extends Error {
-  constructor(public readonly name: string) {
-    super(`Unresolved variable: ${name}`);
+  constructor(public readonly variableName: string) {
+    super(`Unresolved variable: ${variableName}`);
     this.name = 'UnresolvedVariableError';
   }
 }
