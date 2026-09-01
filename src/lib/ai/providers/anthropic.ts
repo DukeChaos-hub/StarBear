@@ -41,10 +41,9 @@ export function createAnthropicProvider(): AIProvider {
         maxTokens: opts.maxTokens,
       });
       for await (const part of res.fullStream) {
-        if (part.type === 'text-delta') yield { type: 'text', text: part.textDelta };
-        else if (part.type === 'tool-call')
-          yield { type: 'tool-call', toolCall: { id: part.toolCallId, name: part.toolName, args: part.args } };
-        else if (part.type === 'finish') yield { type: 'finish', reason: part.finishReason };
+        const p = part as { type: string; textDelta?: string; finishReason?: string };
+        if (p.type === 'text-delta' && p.textDelta) yield { type: 'text', text: p.textDelta };
+        else if (p.type === 'finish') yield { type: 'finish', reason: p.finishReason ?? 'stop' };
       }
     },
   };
