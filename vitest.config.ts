@@ -2,10 +2,26 @@ import { defineConfig } from 'vitest/config';
 import { resolve } from 'node:path';
 
 export default defineConfig({
+  // tsconfig.json uses "jsx": "preserve" (Next compiles the JSX). For Vitest
+  // we need esbuild to apply the automatic runtime, otherwise test files
+  // would need to `import React from 'react'` in every test.
+  esbuild: {
+    jsx: 'automatic',
+  },
   test: {
     globals: false,
     environment: 'node',
-    include: ['tests/unit/**/*.test.ts', 'tests/integration/**/*.test.ts'],
+    include: [
+      'tests/unit/**/*.test.ts',
+      'tests/integration/**/*.test.ts',
+      'tests/component/**/*.test.tsx',
+    ],
+    // Component tests need a DOM. Unit + integration stay on node for speed.
+    environmentMatchGlobs: [
+      ['tests/component/**', 'jsdom'],
+    ],
+    // jsdom needs setup; we extend with @testing-library/jest-dom matchers.
+    setupFiles: ['tests/component/setup.ts'],
     pool: 'forks',
     poolOptions: {
       forks: {
