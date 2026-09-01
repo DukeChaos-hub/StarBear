@@ -5,12 +5,72 @@ All notable changes to StarBear are documented here. The format is based on [Kee
 ## [Unreleased]
 
 ### Added
-- `pnpm db:seed` populates a sample `dev` environment and `Sandbox` collection with 3 requests.
-- `pnpm db:reset` drops all tables and re-applies migrations.
+- **`pnpm db:seed` populates a sample `dev` environment and `Sandbox` collection with 3 requests.**
+- **`pnpm db:reset` drops all tables and re-applies migrations.**
 - `AGENTS.md` operating manual.
 - `docs/STATUS.md` session handoff.
 - `docs/development/last-smoke.md` last smoke run record.
 - `.env.example` documents `STARBEAR_DB` / `STARBEAR_MASTER_KEY` / `PORT`.
+
+### Added (Phase 3 — Test Engine, 2026-09-01)
+- 6 assertion types: `status`, `latency`, `header`, `jsonpath`, `schema`, `script`.
+- `runTestCase` executor + `buildSuiteReport` aggregate, both unit-tested.
+- `POST /api/tests` and `POST /api/tests/suite` with Zod validation; both accept `ssrfMode` per-call override.
+- `test_runs` and `test_run_steps` repositories + `GET /api/test-runs/[id]`.
+
+### Added (Phase 4 — AI Provider Layer, 2026-09-01)
+- AES-256-GCM key crypto at `src/lib/ai/crypto.ts`; master key in `~/.starbear/master.key` (chmod 600) or `STARBEAR_MASTER_KEY` env.
+- Unified `AIProvider` interface and 4 vendor adapters (OpenAI, Anthropic, Google, DeepSeek) over the Vercel AI SDK v4.
+- `GET`/`POST /api/settings/ai` with key encryption-on-save and `keySetByProvider` booleans on read.
+
+### Added (Phase 5 — AI Agent, 2026-09-01)
+- 5 tool descriptors and executors: `list_collections`, `search_requests`, `send_request`, `run_test_case`, `save_request`.
+- Bounded 10-step agent runtime (`src/lib/agent/runtime.ts`) that yields `text` / `tool-call` / `tool-result` / `finish` / `error` events.
+- `POST /api/ai-agent` SSE streaming endpoint with `x-starbear-conv` and `x-starbear-max-steps` headers.
+- `pnpm gen:agent-manifest` regenerates `docs/ai-agent/agent-manifest.json` and `docs/ai-agent/tool-reference.md` from the code.
+
+### Added (Phase 6 — UI Foundation, 2026-09-01)
+- `AppShell` (sidebar + topbar + optional right pane), `Sidebar` with 5 nav targets, `Topbar` with env switcher, ⌘K, and right-pane toggle.
+- `CommandPalette` (cmdk + Radix dialog) for fast navigation.
+- `EnvSwitcher` (Radix dropdown-menu) hitting `/api/environments`.
+- `useWorkspace` Zustand store (`rightPaneOpen`, `sidebarCollapsed`).
+- Five workspace routes: `/workspace`, `/workspace/environments`, `/workspace/tests`, `/workspace/agent`, `/workspace/settings`.
+- `/` server-redirects to `/workspace`.
+- New Radix wrappers: `dropdown-menu`, `dialog`; new lightweight `tabs` (controlled + uncontrolled).
+
+### Added (Phase 7 — Request Editor, 2026-09-01)
+- `RequestEditor` with method select, URL bar, Send + Save buttons.
+- 4 tabs: Params, Headers, Body, Auth. `Body` supports `none` / `json` / `form` / `raw` kinds. `Auth` supports `none` / `bearer` / `basic` / `apikey` (header or query).
+- `ResponseViewer`: status badge, latency, size; body in `pretty` / `raw` / `preview`; full headers table.
+- `SaveDialog` to name a request and pick a collection, persisting to `/api/requests`.
+- New UI primitives: `Input`, `Textarea`, `Badge`.
+
+### Added (Phase 8 — Environments + Tests UI, 2026-09-01)
+- `/workspace/environments` full editor: left list with create + activate; right KV editor with secret toggle, reveal/hide, save-on-blur.
+- `/workspace/tests` full editor: left list with create/run/delete and "Run all"; right detail with request-binding dropdown and 6 per-type assertion editors.
+
+### Added (Phase 9 — AI Chat, 2026-09-01)
+- `AgentChat` streams text deltas into a single growing assistant bubble, tool calls into inline cards (name + arg summary + ok/err after result), errors as red banners.
+- Captures `x-starbear-conv` and re-sends on follow-up turns.
+- `/workspace/agent` is a dedicated fullscreen version with a tip card.
+
+### Added (Phase 10 — Settings UI, 2026-09-01)
+- Per-provider cards (openai / anthropic / google / deepseek) with model, base URL, encrypted API key.
+- Active-provider dropdown highlights the chosen card.
+- `GET /api/settings/ai` now returns `keySetByProvider` (booleans only).
+- `POST` treats empty string as "clear this provider's key" — clears from the existing encrypted map and persists.
+- Password input with reveal/hide toggle and explicit Clear button when set.
+
+### Added (Phase 11 — Documentation, 2026-09-01)
+- `docs/user-guide.md` — UI walkthrough with ASCII diagrams.
+- `docs/architecture.md` — system design, data model, AI agent pipeline, crypto, test architecture, extension guide.
+- `docs/development/setup.md` — prerequisites, install, configure, run, verify, troubleshooting.
+- `docs/development/index.md` — dev topic index.
+- README upgrade: feature parity with the actual surface, links to the new docs.
+
+### Fixed
+- `app-shell.tsx` import paths for `sidebar` and `env-switcher` after the Phase 6 batch.
+- `route.ts` (settings/ai) uses the correct `getSettings` / `saveSettings` aliases from `@/lib/db/ai-settings`.
 
 ## [0.1.0] - 2026-09-01
 

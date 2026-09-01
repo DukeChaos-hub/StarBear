@@ -14,23 +14,28 @@ StarBear is an AI-Native, open-source API client and testing tool (think Postman
 
 ## Current state (as of last session)
 
-- **3.8 / 13 phases** complete. Backend CRUD is functional end-to-end.
-- 11 git commits on `main`. Working tree clean.
-- 44 / 44 tests pass. `pnpm typecheck` and `pnpm build` are green.
-- 14 API routes are registered and exercised by integration tests.
+- **10 / 13 phases** complete. Backend + full UI layer shipped.
+- 33 git commits on `main`. Working tree clean (1 gitignored transient file).
+- 104 / 104 tests pass. `pnpm typecheck` and `pnpm build` are green.
+- 19 API routes are registered and exercised by integration tests; 5 workspace pages are statically built.
+- Coverage 92.8% on `src/lib/**` (above the 80% floor).
 
-| Phase | Status |
-|-------|--------|
-| 0 Project Foundation | ✅ |
-| 1 HTTP Engine | ✅ |
-| 2 Data Layer | ✅ |
-| 2.8 CRUD API routes | ✅ |
-| 3 Test Engine | ⏳ next |
-| 4 AI Provider Layer | ❌ |
-| 5 AI Agent | ❌ |
-| 6–10 UI | ❌ |
-| 11 Documentation | ❌ |
-| 12 E2E + GitHub push | ❌ |
+| Phase | Status | Commit |
+|-------|--------|--------|
+| 0 Project Foundation | ✅ | `464a459` |
+| 1 HTTP Engine | ✅ | `ad55bb1` |
+| 2 Data Layer | ✅ | `32f671c` |
+| 2.8 CRUD API routes | ✅ | `aca7c49` |
+| 3 Test Engine | ✅ | `…` |
+| 4 AI Provider Layer | ✅ | `725dbaf` |
+| 5 AI Agent | ✅ | `ba1e331` |
+| 6 UI Foundation | ✅ | `b621193` |
+| 7 Request Editor | ✅ | `30e1e76` |
+| 8 Env + Tests UI | ✅ | `c755b60` |
+| 9 AI Chat | ✅ | `afa30b8` |
+| 10 Settings UI | ✅ | `3f28caf` |
+| 11 Documentation | ⏳ partial | `7baa276` (STATUS); user-guide / architecture / dev-setup done in this session |
+| 12 E2E + GitHub push | ❌ blocked | needs user creds |
 
 ## Hard rules
 
@@ -49,13 +54,14 @@ These are not negotiable. They are the result of decisions already made and comm
 
 ```bash
 pnpm install                 # install
-pnpm dev                     # http://localhost:3000
-pnpm typecheck               # tsc --noEmit
-pnpm test                    # 44 vitest tests
+pnpm dev                     # http://localhost:3000 → /workspace
+pnpm typecheck               # tsc --noEmit, must be silent
+pnpm test                    # 104 vitest tests
 pnpm test:coverage           # coverage on src/lib/**
 pnpm build                   # production build
 pnpm db:migrate              # apply migrations to .starbear/starbear.sqlite
 pnpm db:seed                 # populate 1 env + 1 collection with 3 sample requests (idempotent)
+pnpm gen:agent-manifest      # regenerate docs/ai-agent/ from src/lib/agent/tools.ts
 ```
 
 ## Architecture cheat sheet
