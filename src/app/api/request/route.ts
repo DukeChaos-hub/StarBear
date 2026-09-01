@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { sendRequest, SsrfBlockedError, UnresolvedVariableError } from '@/lib/http';
-import { getSettings } from '@/lib/db/ai-settings';
 
 const SendRequestBody = z.object({
   method: z.enum(['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS']),
@@ -38,8 +37,7 @@ export async function POST(req: NextRequest) {
     );
   }
   // ssrfMode comes from request (UI passes the user's setting; default 'strict').
-  // getSettings() is reserved for future per-user policy enforcement.
-  void (await getSettings());
+  // Future: enforce per-user policy here via getSettings().
   try {
     const result = await sendRequest(parsed.data);
     return NextResponse.json(result);

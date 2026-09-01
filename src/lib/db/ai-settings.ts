@@ -1,11 +1,7 @@
-// Stub for Phase 1. Full DB-backed implementation arrives in Phase 2/5.
-export interface AiSettings {
-  ssrfMode: 'strict' | 'allow-local';
-  activeProvider: string | null;
-}
-
-const DEFAULT: AiSettings = { ssrfMode: 'strict', activeProvider: null };
-
-export async function getSettings(): Promise<AiSettings> {
-  return DEFAULT;
-}
+// Re-export the real repository under the old path so existing imports keep working.
+export {
+  get as getSettings,
+  save as saveSettings,
+  type Settings as AiSettings,
+  type SaveInput,
+} from './repositories/ai-settings';
