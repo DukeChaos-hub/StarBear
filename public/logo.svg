@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="StarBear">
+  <title>StarBear</title>
+  <defs>
+    <linearGradient id="starbear-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0F172A"/>
+      <stop offset="100%" stop-color="#1E293B"/>
+    </linearGradient>
+    <linearGradient id="starbear-star" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FCD34D"/>
+      <stop offset="100%" stop-color="#F59E0B"/>
+    </linearGradient>
+  </defs>
+  <rect width="256" height="256" rx="48" fill="url(#starbear-bg)"/>
+  <!-- 5-point star -->
+  <path d="M128 36 L154.4 100.8 L222.7 109.3 L173.4 159.5 L186.4 230.4 L128 195.6 L69.6 230.4 L82.6 159.5 L33.3 109.3 L101.6 100.8 Z" fill="url(#starbear-star)" stroke="#92400E" stroke-width="2" stroke-linejoin="round"/>
+  <!-- Bear silhouette in the star (subtle "B" hint) -->
+  <circle cx="128" cy="125" r="14" fill="#0F172A"/>
+  <circle cx="121" cy="118" r="3.5" fill="url(#starbear-star)"/>
+  <circle cx="135" cy="118" r="3.5" fill="url(#starbear-star)"/>
+  <ellipse cx="128" cy="132" rx="3" ry="2" fill="url(#starbear-star)"/>
+</svg>

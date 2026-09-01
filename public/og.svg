@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="StarBear — AI-Native API client and testing tool">
+  <title>StarBear — AI-Native API client and testing tool</title>
+  <defs>
+    <linearGradient id="og-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0B1220"/>
+      <stop offset="100%" stop-color="#1E293B"/>
+    </linearGradient>
+    <linearGradient id="og-star" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FCD34D"/>
+      <stop offset="100%" stop-color="#F59E0B"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#og-bg)"/>
+  <g transform="translate(100, 195)">
+    <path d="M128 0 L168.6 92.8 L268 105.2 L195.4 175.6 L213.8 274.8 L128 222.6 L42.2 274.8 L60.6 175.6 L-12 105.2 L87.4 92.8 Z" fill="url(#og-star)" stroke="#92400E" stroke-width="3" stroke-linejoin="round" transform="scale(0.9)"/>
+  </g>
+  <g transform="translate(440, 0)" fill="#F8FAFC" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+    <text x="0" y="280" font-size="80" font-weight="800" letter-spacing="-2">StarBear</text>
+    <text x="0" y="350" font-size="34" font-weight="400" fill="#94A3B8">AI-Native API client and testing tool.</text>
+    <text x="0" y="395" font-size="22" font-weight="400" fill="#64748B">Local-first · BYOK · Open Source</text>
+  </g>
+</svg>
