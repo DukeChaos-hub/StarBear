@@ -10,6 +10,7 @@ import {
   Settings as SettingsIcon,
   Sparkles,
   TestTube2,
+  Upload,
   Variable,
 } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
@@ -26,6 +27,7 @@ const NAV: NavItem[] = [
   { label: 'Environments', href: '/workspace/environments', icon: Variable },
   { label: 'Tests', href: '/workspace/tests', icon: TestTube2 },
   { label: 'Mocks', href: '/workspace/mocks', icon: Server },
+  { label: 'Import', href: '/workspace/import', icon: Upload },
   { label: 'AI Agent', href: '/workspace/agent', icon: Bot },
   { label: 'Settings', href: '/workspace/settings', icon: SettingsIcon },
 ];

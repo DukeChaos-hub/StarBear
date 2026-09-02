@@ -14,6 +14,7 @@ const items = [
   { label: 'Go to Environments', href: '/workspace/environments' },
   { label: 'Go to Tests', href: '/workspace/tests' },
   { label: 'Go to Mocks', href: '/workspace/mocks' },
+  { label: 'Go to Import', href: '/workspace/import' },
   { label: 'Go to AI Agent', href: '/workspace/agent' },
   { label: 'Go to Settings', href: '/workspace/settings' },
 ];
