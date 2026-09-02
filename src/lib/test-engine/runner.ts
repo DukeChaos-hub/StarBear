@@ -2,7 +2,10 @@ import { sendRequest, type SendRequestInput } from '@/lib/http';
 import { runAssertion } from './assertions';
 import { AssertionArray, type Assertion, type AssertionOutcome } from './types';
 
-export interface RunTestCaseInput extends Omit<SendRequestInput, 'headers' | 'query' | 'body' | 'auth'> {
+export interface RunTestCaseInput extends Omit<
+  SendRequestInput,
+  'headers' | 'query' | 'body' | 'auth'
+> {
   testCaseId: string;
   requestId: string;
   assertions: Assertion[];
@@ -47,7 +50,13 @@ export async function runTestCase(input: RunTestCaseInput): Promise<RunTestCaseO
   }
   for (const a of input.assertions) outcomes.push(runAssertion(a, response));
   const status = outcomes.every((o) => o.passed) ? 'passed' : 'failed';
-  return { testCaseId: input.testCaseId, requestId: input.requestId, status, response, assertionsResult: outcomes };
+  return {
+    testCaseId: input.testCaseId,
+    requestId: input.requestId,
+    status,
+    response,
+    assertionsResult: outcomes,
+  };
 }
 
 export function parseAssertionsJson(json: string): Assertion[] {

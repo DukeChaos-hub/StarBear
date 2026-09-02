@@ -13,7 +13,11 @@ beforeAll(async () => {
     req.on('end', () => {
       res.writeHead(200, { 'content-type': 'application/json' });
       res.end(
-        JSON.stringify({ ok: true, method: req.method, body: Buffer.concat(chunks).toString('utf8') }),
+        JSON.stringify({
+          ok: true,
+          method: req.method,
+          body: Buffer.concat(chunks).toString('utf8'),
+        }),
       );
     });
   });

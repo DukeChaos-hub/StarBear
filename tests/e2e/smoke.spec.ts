@@ -31,7 +31,9 @@ test.describe('StarBear smoke', () => {
     await expect(page.getByText(envName).first()).toBeVisible();
   });
 
-  test('tests page renders the empty-state hint when no test case is selected', async ({ page }) => {
+  test('tests page renders the empty-state hint when no test case is selected', async ({
+    page,
+  }) => {
     await page.goto('/workspace/tests');
     await expect(page.getByText(/select a test case/i)).toBeVisible();
   });
@@ -41,7 +43,9 @@ test.describe('StarBear smoke', () => {
     // Each provider name is rendered as a card heading (not a hidden <option>).
     for (const p of ['openai', 'anthropic', 'google', 'deepseek']) {
       // The card heading has class "text-sm font-semibold" (from the markup).
-      const card = page.locator('.text-sm.font-semibold', { hasText: new RegExp(`^${p}$`) }).first();
+      const card = page
+        .locator('.text-sm.font-semibold', { hasText: new RegExp(`^${p}$`) })
+        .first();
       await expect(card).toBeVisible();
     }
     await expect(page.getByText(/active provider/i)).toBeVisible();

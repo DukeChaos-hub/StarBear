@@ -7,8 +7,12 @@ describe('assertSsrfSafe', () => {
   });
 
   it('blocks loopback in strict mode', async () => {
-    await expect(assertSsrfSafe('http://127.0.0.1:3000', 'strict')).rejects.toThrow(SsrfBlockedError);
-    await expect(assertSsrfSafe('http://localhost:3000', 'strict')).rejects.toThrow(SsrfBlockedError);
+    await expect(assertSsrfSafe('http://127.0.0.1:3000', 'strict')).rejects.toThrow(
+      SsrfBlockedError,
+    );
+    await expect(assertSsrfSafe('http://localhost:3000', 'strict')).rejects.toThrow(
+      SsrfBlockedError,
+    );
   });
 
   it('blocks 10/8 in strict mode', async () => {
@@ -21,7 +25,9 @@ describe('assertSsrfSafe', () => {
 
   it('blocks 172.16/12 in strict mode', async () => {
     await expect(assertSsrfSafe('http://172.16.0.1', 'strict')).rejects.toThrow(SsrfBlockedError);
-    await expect(assertSsrfSafe('http://172.31.255.255', 'strict')).rejects.toThrow(SsrfBlockedError);
+    await expect(assertSsrfSafe('http://172.31.255.255', 'strict')).rejects.toThrow(
+      SsrfBlockedError,
+    );
     await expect(assertSsrfSafe('http://172.32.0.1', 'strict')).resolves.toBeUndefined();
   });
 

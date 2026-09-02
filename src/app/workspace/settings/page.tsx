@@ -111,8 +111,8 @@ export default function SettingsPage() {
       <div>
         <h1 className="text-xl font-semibold">Settings</h1>
         <p className="mt-1 text-xs text-muted-foreground">
-          AI provider keys are encrypted at rest (AES-256-GCM) with the server master key
-          (<code>STARBEAR_MASTER_KEY</code>). Plaintext keys are never returned to the client.
+          AI provider keys are encrypted at rest (AES-256-GCM) with the server master key (
+          <code>STARBEAR_MASTER_KEY</code>). Plaintext keys are never returned to the client.
         </p>
       </div>
 
@@ -123,7 +123,9 @@ export default function SettingsPage() {
         <div className="flex items-center gap-2">
           <select
             value={active || 'none'}
-            onChange={(e) => setActive(e.target.value === 'none' ? '' : (e.target.value as Provider))}
+            onChange={(e) =>
+              setActive(e.target.value === 'none' ? '' : (e.target.value as Provider))
+            }
             className="h-8 rounded-md border border-input bg-background px-2 text-sm"
             disabled={!loaded}
           >
@@ -134,7 +136,9 @@ export default function SettingsPage() {
               </option>
             ))}
           </select>
-          {active && <Badge variant="secondary">using {models[active] ?? DEFAULT_MODELS[active]}</Badge>}
+          {active && (
+            <Badge variant="secondary">using {models[active] ?? DEFAULT_MODELS[active]}</Badge>
+          )}
         </div>
       </section>
 
@@ -164,7 +168,9 @@ export default function SettingsPage() {
               </div>
               <div className="grid gap-2 sm:grid-cols-2">
                 <div>
-                  <label className="mb-1 block text-[10px] uppercase text-muted-foreground">Model</label>
+                  <label className="mb-1 block text-[10px] uppercase text-muted-foreground">
+                    Model
+                  </label>
                   <Input
                     value={models[p] ?? DEFAULT_MODELS[p]}
                     onChange={(e) => setModels({ ...models, [p]: e.target.value })}
@@ -172,7 +178,9 @@ export default function SettingsPage() {
                   />
                 </div>
                 <div>
-                  <label className="mb-1 block text-[10px] uppercase text-muted-foreground">Base URL</label>
+                  <label className="mb-1 block text-[10px] uppercase text-muted-foreground">
+                    Base URL
+                  </label>
                   <Input
                     value={baseUrls[p] ?? DEFAULT_BASE_URLS[p]}
                     onChange={(e) => setBaseUrls({ ...baseUrls, [p]: e.target.value })}
@@ -182,7 +190,9 @@ export default function SettingsPage() {
                 </div>
               </div>
               <div className="mt-2">
-                <label className="mb-1 block text-[10px] uppercase text-muted-foreground">API key</label>
+                <label className="mb-1 block text-[10px] uppercase text-muted-foreground">
+                  API key
+                </label>
                 <ApiKeyField
                   value={apiKeys[p] ?? ''}
                   configured={configured}
@@ -197,7 +207,11 @@ export default function SettingsPage() {
 
       <div className="flex items-center gap-3">
         <Button onClick={save} disabled={busy}>
-          {busy ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Save className="h-3.5 w-3.5" />}
+          {busy ? (
+            <Loader2 className="h-3.5 w-3.5 animate-spin" />
+          ) : (
+            <Save className="h-3.5 w-3.5" />
+          )}
           {busy ? 'Saving…' : 'Save all'}
         </Button>
         {msg && (

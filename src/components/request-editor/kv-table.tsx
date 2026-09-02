@@ -19,7 +19,13 @@ interface KvTableProps {
   testId?: string;
 }
 
-export function KvTable({ rows, onChange, keyPlaceholder, valuePlaceholder, testId }: KvTableProps) {
+export function KvTable({
+  rows,
+  onChange,
+  keyPlaceholder,
+  valuePlaceholder,
+  testId,
+}: KvTableProps) {
   const update = (i: number, patch: Partial<KeyValueRow>) => {
     const next = rows.map((r, idx) => (idx === i ? { ...r, ...patch } : r));
     onChange(next);

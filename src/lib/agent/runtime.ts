@@ -49,7 +49,11 @@ export async function* runAgent(input: AgentInput): AsyncIterable<AgentStep> {
   const apiKey = decryptKey(encKey, ensureMasterKey());
   const provider = getProvider(settings.activeProvider);
 
-  const ctx: ToolContext = { conversationId: input.conversationId, vars: input.vars, ssrfMode: input.ssrfMode };
+  const ctx: ToolContext = {
+    conversationId: input.conversationId,
+    vars: input.vars,
+    ssrfMode: input.ssrfMode,
+  };
   const messages: Message[] = [{ role: 'user', content: input.userMessage }];
 
   let steps = 0;
@@ -81,10 +85,20 @@ export async function* runAgent(input: AgentInput): AsyncIterable<AgentStep> {
       try {
         const result = await executeTool(tc.name, tc.args, ctx);
         yield { kind: 'tool-result', toolCall: tc, toolResult: result };
-        messages.push({ role: 'tool', content: JSON.stringify({ toolCallId: tc.id, name: tc.name, result }) });
+        messages.push({
+          role: 'tool',
+          content: JSON.stringify({ toolCallId: tc.id, name: tc.name, result }),
+        });
       } catch (e) {
         yield { kind: 'tool-result', toolCall: tc, toolResult: { error: (e as Error).message } };
-        messages.push({ role: 'tool', content: JSON.stringify({ toolCallId: tc.id, name: tc.name, error: (e as Error).message }) });
+        messages.push({
+          role: 'tool',
+          content: JSON.stringify({
+            toolCallId: tc.id,
+            name: tc.name,
+            error: (e as Error).message,
+          }),
+        });
       }
     }
     steps++;

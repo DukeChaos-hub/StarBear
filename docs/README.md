@@ -6,13 +6,13 @@ Welcome. Start with [Getting Started →](./development/setup.md) (or the top-le
 
 ## Index
 
-| Section | Purpose | Where to start |
-|---------|---------|----------------|
-| **Status & handoff** | Where the project is right now and what is next | [STATUS.md](./STATUS.md) |
-| **Design spec** | What we are building and why (architecture, data model, AI agent surface) | [superpowers/specs/2026-09-01-starbear-v1-design.md](./superpowers/specs/2026-09-01-starbear-v1-design.md) |
-| **Implementation plan** | The 13-phase, ~100-task execution plan with TDD steps | [superpowers/plans/2026-09-01-starbear-v1.md](./superpowers/plans/2026-09-01-starbear-v1.md) |
-| **Development** | Setup, contribution rules, last smoke run | [development/](./development/) |
-| **Top-level** | Project README, AGENTS.md, CONTRIBUTING, CHANGELOG | [../README.md](../README.md) · [../AGENTS.md](../AGENTS.md) · [../CONTRIBUTING.md](../CONTRIBUTING.md) · [../CHANGELOG.md](../CHANGELOG.md) |
+| Section                 | Purpose                                                                   | Where to start                                                                                                                              |
+| ----------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Status & handoff**    | Where the project is right now and what is next                           | [STATUS.md](./STATUS.md)                                                                                                                    |
+| **Design spec**         | What we are building and why (architecture, data model, AI agent surface) | [superpowers/specs/2026-09-01-starbear-v1-design.md](./superpowers/specs/2026-09-01-starbear-v1-design.md)                                  |
+| **Implementation plan** | The 13-phase, ~100-task execution plan with TDD steps                     | [superpowers/plans/2026-09-01-starbear-v1.md](./superpowers/plans/2026-09-01-starbear-v1.md)                                                |
+| **Development**         | Setup, contribution rules, last smoke run                                 | [development/](./development/)                                                                                                              |
+| **Top-level**           | Project README, AGENTS.md, CONTRIBUTING, CHANGELOG                        | [../README.md](../README.md) · [../AGENTS.md](../AGENTS.md) · [../CONTRIBUTING.md](../CONTRIBUTING.md) · [../CHANGELOG.md](../CHANGELOG.md) |
 
 ## Roadmap snapshot
 

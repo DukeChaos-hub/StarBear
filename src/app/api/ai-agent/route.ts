@@ -21,7 +21,12 @@ export async function POST(req: NextRequest) {
   const convId =
     parsed.data.conversationId ??
     (await convRepo.create({ title: parsed.data.message.slice(0, 60), kind: 'agent' }));
-  await msgRepo.append({ conversationId: convId, role: 'user', content: parsed.data.message, toolCalls: null });
+  await msgRepo.append({
+    conversationId: convId,
+    role: 'user',
+    content: parsed.data.message,
+    toolCalls: null,
+  });
 
   const stream = new ReadableStream({
     async start(controller) {
@@ -34,8 +39,15 @@ export async function POST(req: NextRequest) {
           ssrfMode: parsed.data.ssrfMode ?? 'strict',
         })) {
           if (step.kind === 'text' && step.text) {
-            await msgRepo.append({ conversationId: convId, role: 'assistant', content: step.text, toolCalls: null });
-            controller.enqueue(enc.encode(`data: ${JSON.stringify({ type: 'text', text: step.text })}\n\n`));
+            await msgRepo.append({
+              conversationId: convId,
+              role: 'assistant',
+              content: step.text,
+              toolCalls: null,
+            });
+            controller.enqueue(
+              enc.encode(`data: ${JSON.stringify({ type: 'text', text: step.text })}\n\n`),
+            );
           } else if (step.kind === 'tool-call' && step.toolCall) {
             await msgRepo.append({
               conversationId: convId,
@@ -44,7 +56,9 @@ export async function POST(req: NextRequest) {
               toolCalls: JSON.stringify([step.toolCall]),
             });
             controller.enqueue(
-              enc.encode(`data: ${JSON.stringify({ type: 'tool-call', toolCall: step.toolCall })}\n\n`),
+              enc.encode(
+                `data: ${JSON.stringify({ type: 'tool-call', toolCall: step.toolCall })}\n\n`,
+              ),
             );
           } else if (step.kind === 'tool-result') {
             controller.enqueue(
@@ -53,14 +67,20 @@ export async function POST(req: NextRequest) {
               ),
             );
           } else if (step.kind === 'finish') {
-            controller.enqueue(enc.encode(`data: ${JSON.stringify({ type: 'finish', reason: step.reason })}\n\n`));
+            controller.enqueue(
+              enc.encode(`data: ${JSON.stringify({ type: 'finish', reason: step.reason })}\n\n`),
+            );
           } else if (step.kind === 'error') {
-            controller.enqueue(enc.encode(`data: ${JSON.stringify({ type: 'error', error: step.error })}\n\n`));
+            controller.enqueue(
+              enc.encode(`data: ${JSON.stringify({ type: 'error', error: step.error })}\n\n`),
+            );
           }
           await convRepo.touch(convId);
         }
       } catch (e) {
-        controller.enqueue(enc.encode(`data: ${JSON.stringify({ type: 'error', error: (e as Error).message })}\n\n`));
+        controller.enqueue(
+          enc.encode(`data: ${JSON.stringify({ type: 'error', error: (e as Error).message })}\n\n`),
+        );
       } finally {
         controller.enqueue(enc.encode('data: [DONE]\n\n'));
         controller.close();

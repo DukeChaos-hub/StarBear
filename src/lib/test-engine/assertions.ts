@@ -3,7 +3,10 @@ import type { SendRequestResult } from '@/lib/http';
 
 function getByPath(obj: unknown, path: string): unknown {
   if (!path.startsWith('$')) return undefined;
-  const tokens = path.slice(1).split(/[.[\]]+/).filter(Boolean);
+  const tokens = path
+    .slice(1)
+    .split(/[.[\]]+/)
+    .filter(Boolean);
   let cur: unknown = obj;
   for (const t of tokens) {
     if (cur === null || cur === undefined) return undefined;
@@ -110,10 +113,7 @@ export function runAssertion(a: Assertion, result: SendRequestResult): Assertion
       return {
         type: a.type,
         passed: mismatches.length === 0,
-        message:
-          mismatches.length === 0
-            ? 'schema ok'
-            : `mismatch: ${mismatches.join(', ')}`,
+        message: mismatches.length === 0 ? 'schema ok' : `mismatch: ${mismatches.join(', ')}`,
       };
     }
     case 'script': {

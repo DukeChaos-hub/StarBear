@@ -98,10 +98,9 @@ describe('POST /api/tests', () => {
     const { runId, result } = (await res.json()) as { runId: string; result: { status: string } };
     expect(result.status).toBe('passed');
 
-    const get = await runGet(
-      new NextRequest(`http://x/api/test-runs/${runId}`),
-      { params: Promise.resolve({ id: runId }) },
-    );
+    const get = await runGet(new NextRequest(`http://x/api/test-runs/${runId}`), {
+      params: Promise.resolve({ id: runId }),
+    });
     expect(get.status).toBe(200);
   });
 

@@ -18,7 +18,11 @@ describe('<ResponseViewer>', () => {
   it('renders an error banner with the upstream message', () => {
     render(
       <ResponseViewer
-        state={{ kind: 'error', status: 502, body: { error: 'upstream', message: 'connection reset' } }}
+        state={{
+          kind: 'error',
+          status: 502,
+          body: { error: 'upstream', message: 'connection reset' },
+        }}
       />,
     );
     expect(screen.getByTestId('response-error')).toBeInTheDocument();
@@ -29,7 +33,11 @@ describe('<ResponseViewer>', () => {
   it('reports SSRF-blocked reason when the server returns ssrf_blocked', () => {
     render(
       <ResponseViewer
-        state={{ kind: 'error', status: 400, body: { error: 'ssrf_blocked', reason: '10.0.0.1 is private' } }}
+        state={{
+          kind: 'error',
+          status: 400,
+          body: { error: 'ssrf_blocked', reason: '10.0.0.1 is private' },
+        }}
       />,
     );
     expect(screen.getByText(/10\.0\.0\.1 is private/)).toBeInTheDocument();

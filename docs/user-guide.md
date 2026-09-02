@@ -193,20 +193,20 @@ in the topbar (when on any workspace page).
 
 The agent has access to **5 tools**:
 
-| Tool | What it does |
-|------|--------------|
-| `list_collections` | Lists all collections with counts |
-| `search_requests` | Searches requests by name/URL substring |
-| `send_request` | Sends a request with the active env's vars (SSRF-guarded) |
-| `run_test_case` | Runs a test case and returns the outcome |
-| `save_request` | Creates or updates a request in a collection |
+| Tool               | What it does                                              |
+| ------------------ | --------------------------------------------------------- |
+| `list_collections` | Lists all collections with counts                         |
+| `search_requests`  | Searches requests by name/URL substring                   |
+| `send_request`     | Sends a request with the active env's vars (SSRF-guarded) |
+| `run_test_case`    | Runs a test case and returns the outcome                  |
+| `save_request`     | Creates or updates a request in a collection              |
 
 **Try these prompts:**
 
-- *"List my collections and tell me how many requests each has."*
-- *"Send a GET to {{base}}/users/1 and show the JSONPath `$.id`."*
-- *"Find every request whose URL contains `/admin/` and tell me their methods."*
-- *"Run all test cases."*
+- _"List my collections and tell me how many requests each has."_
+- _"Send a GET to {{base}}/users/1 and show the JSONPath `$.id`."_
+- _"Find every request whose URL contains `/admin/` and tell me their methods."_
+- _"Run all test cases."_
 
 The chat is **stateless across page reloads** for now — the server
 persists messages, but the UI keeps the conversation in component state.
@@ -255,14 +255,14 @@ Path: **`/workspace/settings`**.
 
 ## 6. Keyboard shortcuts
 
-| Key | Action |
-|-----|--------|
-| `⌘K` / `Ctrl+K` | Open command palette |
-| `Enter` (in chat) | Send message |
-| `Shift+Enter` (in chat) | Newline |
-| `Enter` (in URL bar) | Send the request |
-| `Tab` (anywhere) | Move focus |
-| `Esc` (in dialog) | Close dialog |
+| Key                     | Action               |
+| ----------------------- | -------------------- |
+| `⌘K` / `Ctrl+K`         | Open command palette |
+| `Enter` (in chat)       | Send message         |
+| `Shift+Enter` (in chat) | Newline              |
+| `Enter` (in URL bar)    | Send the request     |
+| `Tab` (anywhere)        | Move focus           |
+| `Esc` (in dialog)       | Close dialog         |
 
 ---
 

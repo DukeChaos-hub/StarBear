@@ -77,10 +77,19 @@ export default function EnvironmentsPage() {
     const res = await fetch('/api/env-variables', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ envId: selectedId, key: '', value: '', isSecret: false, sortOrder: vars.length }),
+      body: JSON.stringify({
+        envId: selectedId,
+        key: '',
+        value: '',
+        isSecret: false,
+        sortOrder: vars.length,
+      }),
     });
     const { id } = await res.json();
-    setVars((v) => [...v, { id, env_id: selectedId, key: '', value: '', is_secret: 0, sort_order: v.length }]);
+    setVars((v) => [
+      ...v,
+      { id, env_id: selectedId, key: '', value: '', is_secret: 0, sort_order: v.length },
+    ]);
   };
 
   const saveVar = async (id: string, patch: Partial<EnvVariable>) => {
@@ -117,13 +126,20 @@ export default function EnvironmentsPage() {
               placeholder="New env name"
               onKeyDown={(e) => e.key === 'Enter' && void createEnv()}
             />
-            <Button size="icon" onClick={createEnv} disabled={busy || !newEnvName} aria-label="Create env">
+            <Button
+              size="icon"
+              onClick={createEnv}
+              disabled={busy || !newEnvName}
+              aria-label="Create env"
+            >
               <Plus className="h-3.5 w-3.5" />
             </Button>
           </div>
         </div>
         <div className="flex-1 overflow-auto p-2">
-          {envs.length === 0 && <p className="px-2 py-3 text-xs text-muted-foreground">No environments yet.</p>}
+          {envs.length === 0 && (
+            <p className="px-2 py-3 text-xs text-muted-foreground">No environments yet.</p>
+          )}
           {envs.map((e) => (
             <div
               key={e.id}
@@ -136,7 +152,9 @@ export default function EnvironmentsPage() {
                 <span className="font-medium">{e.name}</span>
               </button>
               {e.is_active === 1 ? (
-                <Badge variant="success" className="px-1 py-0 text-[10px]">active</Badge>
+                <Badge variant="success" className="px-1 py-0 text-[10px]">
+                  active
+                </Badge>
               ) : (
                 <Button
                   variant="ghost"
@@ -174,7 +192,9 @@ export default function EnvironmentsPage() {
                 <span className="w-8" />
               </div>
               {vars.length === 0 && (
-                <p className="px-1 py-6 text-center text-xs text-muted-foreground">No variables. Click Add variable.</p>
+                <p className="px-1 py-6 text-center text-xs text-muted-foreground">
+                  No variables. Click Add variable.
+                </p>
               )}
               {vars.map((v) => (
                 <div
@@ -183,7 +203,11 @@ export default function EnvironmentsPage() {
                 >
                   <Input
                     value={v.key}
-                    onChange={(e) => setVars((rows) => rows.map((r) => (r.id === v.id ? { ...r, key: e.target.value } : r)))}
+                    onChange={(e) =>
+                      setVars((rows) =>
+                        rows.map((r) => (r.id === v.id ? { ...r, key: e.target.value } : r)),
+                      )
+                    }
                     onBlur={() => void saveVar(v.id, { key: v.key })}
                     placeholder="key"
                     className="font-mono"
@@ -191,7 +215,9 @@ export default function EnvironmentsPage() {
                   <SecretInput
                     value={v.value}
                     isSecret={v.is_secret === 1}
-                    onChange={(val) => setVars((rows) => rows.map((r) => (r.id === v.id ? { ...r, value: val } : r)))}
+                    onChange={(val) =>
+                      setVars((rows) => rows.map((r) => (r.id === v.id ? { ...r, value: val } : r)))
+                    }
                     onBlur={() => void saveVar(v.id, { value: v.value })}
                   />
                   <input

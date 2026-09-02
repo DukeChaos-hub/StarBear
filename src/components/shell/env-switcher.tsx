@@ -56,9 +56,7 @@ export function EnvSwitcher() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start">
-        {envs.length === 0 && (
-          <DropdownMenuItem disabled>No environments yet</DropdownMenuItem>
-        )}
+        {envs.length === 0 && <DropdownMenuItem disabled>No environments yet</DropdownMenuItem>}
         {envs.map((e) => (
           <DropdownMenuItem
             key={e.id}
@@ -66,7 +64,9 @@ export function EnvSwitcher() {
             className={e.id === active?.id ? 'font-semibold' : ''}
           >
             {e.name}
-            {e.is_active === 1 && <span className="ml-auto text-xs text-muted-foreground">active</span>}
+            {e.is_active === 1 && (
+              <span className="ml-auto text-xs text-muted-foreground">active</span>
+            )}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

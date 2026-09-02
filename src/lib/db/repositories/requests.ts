@@ -54,10 +54,9 @@ export async function getById(id: string): Promise<RequestRow | undefined> {
 }
 
 export async function listByCollection(collectionId: string): Promise<RequestRow[]> {
-  return all<RequestRow>(
-    `SELECT * FROM requests WHERE collection_id = ? ORDER BY sort_order ASC`,
-    [collectionId],
-  );
+  return all<RequestRow>(`SELECT * FROM requests WHERE collection_id = ? ORDER BY sort_order ASC`, [
+    collectionId,
+  ]);
 }
 
 export async function update(id: string, patch: Partial<RequestInput>): Promise<void> {
@@ -97,8 +96,8 @@ export async function remove(id: string): Promise<void> {
 
 export async function search(query: string): Promise<RequestRow[]> {
   const pattern = `%${query}%`;
-  return all<RequestRow>(
-    `SELECT * FROM requests WHERE name LIKE ? OR url LIKE ?`,
-    [pattern, pattern],
-  );
+  return all<RequestRow>(`SELECT * FROM requests WHERE name LIKE ? OR url LIKE ?`, [
+    pattern,
+    pattern,
+  ]);
 }

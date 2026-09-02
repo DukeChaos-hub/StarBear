@@ -16,15 +16,7 @@ Send an HTTP request. Headers/body are JSON. Vars are interpolated server-side. 
   "properties": {
     "method": {
       "type": "string",
-      "enum": [
-        "GET",
-        "POST",
-        "PUT",
-        "PATCH",
-        "DELETE",
-        "HEAD",
-        "OPTIONS"
-      ]
+      "enum": ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"]
     },
     "url": {
       "type": "string"
@@ -51,10 +43,7 @@ Send an HTTP request. Headers/body are JSON. Vars are interpolated server-side. 
       "type": "number"
     }
   },
-  "required": [
-    "method",
-    "url"
-  ]
+  "required": ["method", "url"]
 }
 ```
 
@@ -72,9 +61,7 @@ Run an existing test case by its id. Returns {status, response?, assertionsResul
       "type": "string"
     }
   },
-  "required": [
-    "testCaseId"
-  ]
+  "required": ["testCaseId"]
 }
 ```
 
@@ -113,12 +100,7 @@ Save a new HTTP request into a collection. Returns {id}.
       "type": "object"
     }
   },
-  "required": [
-    "collectionId",
-    "name",
-    "method",
-    "url"
-  ]
+  "required": ["collectionId", "name", "method", "url"]
 }
 ```
 
@@ -149,8 +131,6 @@ Search requests by name or URL substring. Returns up to 20 matches.
       "type": "string"
     }
   },
-  "required": [
-    "query"
-  ]
+  "required": ["query"]
 }
 ```

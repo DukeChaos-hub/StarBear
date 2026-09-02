@@ -9,8 +9,14 @@ function toolsToAiSdk(tools: ProviderGenerateOpts['tools']) {
   return out;
 }
 
-function pickToolCalls(result: { toolCalls?: Array<{ toolCallId: string; toolName: string; args: unknown }> }): ToolCall[] {
-  return (result.toolCalls ?? []).map((c) => ({ id: c.toolCallId, name: c.toolName, args: c.args }));
+function pickToolCalls(result: {
+  toolCalls?: Array<{ toolCallId: string; toolName: string; args: unknown }>;
+}): ToolCall[] {
+  return (result.toolCalls ?? []).map((c) => ({
+    id: c.toolCallId,
+    name: c.toolName,
+    args: c.args,
+  }));
 }
 
 export function createAnthropicProvider(): AIProvider {

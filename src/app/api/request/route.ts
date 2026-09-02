@@ -8,9 +8,7 @@ const SendRequestBody = z.object({
   headers: z
     .array(z.object({ key: z.string(), value: z.string(), enabled: z.boolean() }))
     .optional(),
-  query: z
-    .array(z.object({ key: z.string(), value: z.string(), enabled: z.boolean() }))
-    .optional(),
+  query: z.array(z.object({ key: z.string(), value: z.string(), enabled: z.boolean() })).optional(),
   body: z.string().optional(),
   auth: z
     .object({
@@ -46,10 +44,16 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'ssrf_blocked', reason: e.reason }, { status: 400 });
     }
     if (e instanceof UnresolvedVariableError) {
-      return NextResponse.json({ error: 'unresolved_variable', name: e.variableName }, { status: 400 });
+      return NextResponse.json(
+        { error: 'unresolved_variable', name: e.variableName },
+        { status: 400 },
+      );
     }
     if ((e as Error).message.startsWith('Request timed out')) {
-      return NextResponse.json({ error: 'timeout', message: (e as Error).message }, { status: 504 });
+      return NextResponse.json(
+        { error: 'timeout', message: (e as Error).message },
+        { status: 504 },
+      );
     }
     return NextResponse.json({ error: 'upstream', message: (e as Error).message }, { status: 502 });
   }

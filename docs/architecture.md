@@ -141,12 +141,12 @@ Response { status, statusText, headers, body, bodyJson, latencyMs, size }
 
 **Error model** (all caught in the route handler, mapped to HTTP codes):
 
-| Exception | HTTP | Body |
-|-----------|------|------|
-| `SsrfBlockedError` | 400 | `{ error: 'ssrf_blocked', reason }` |
-| `UnresolvedVariableError` | 400 | `{ error: 'unresolved_variable', name }` |
-| `"Request timed out"` | 504 | `{ error: 'timeout', message }` |
-| Other | 502 | `{ error: 'upstream', message }` |
+| Exception                 | HTTP | Body                                     |
+| ------------------------- | ---- | ---------------------------------------- |
+| `SsrfBlockedError`        | 400  | `{ error: 'ssrf_blocked', reason }`      |
+| `UnresolvedVariableError` | 400  | `{ error: 'unresolved_variable', name }` |
+| `"Request timed out"`     | 504  | `{ error: 'timeout', message }`          |
+| Other                     | 502  | `{ error: 'upstream', message }`         |
 
 ### SSRF guard
 
@@ -214,9 +214,10 @@ The runtime uses the AI SDK v4 stream API. Each provider adapter
 normalizes the SDK's event shapes into a small union:
 
 ```ts
-type StreamChunk = { type: 'text'; text: string }
-                 | { type: 'tool-call'; toolCall: ToolCall }
-                 | { type: 'finish'; reason: string };
+type StreamChunk =
+  | { type: 'text'; text: string }
+  | { type: 'tool-call'; toolCall: ToolCall }
+  | { type: 'finish'; reason: string };
 ```
 
 Tool descriptors live in `src/lib/agent/tools.ts` and are auto-exported
@@ -227,13 +228,13 @@ the manifest.
 
 ### The 5 tools
 
-| Name | Args | What it does |
-|------|------|--------------|
-| `list_collections` | none | Returns `[{ id, name, requestCount }]` |
-| `search_requests` | `{ query }` | Substring match on name + URL |
-| `send_request` | `{ method, url, headers, body, auth, vars }` | Calls `sendRequest`; respects `ssrfMode` |
-| `run_test_case` | `{ testCaseId }` | Calls `runTestCase`; returns outcome |
-| `save_request` | `{ collectionId, name, method, url, ... }` | Creates a new request in a collection |
+| Name               | Args                                         | What it does                             |
+| ------------------ | -------------------------------------------- | ---------------------------------------- |
+| `list_collections` | none                                         | Returns `[{ id, name, requestCount }]`   |
+| `search_requests`  | `{ query }`                                  | Substring match on name + URL            |
+| `send_request`     | `{ method, url, headers, body, auth, vars }` | Calls `sendRequest`; respects `ssrfMode` |
+| `run_test_case`    | `{ testCaseId }`                             | Calls `runTestCase`; returns outcome     |
+| `save_request`     | `{ collectionId, name, method, url, ... }`   | Creates a new request in a collection    |
 
 All tools run inside `ToolContext { conversationId, vars, ssrfMode }`.
 Vars come from the active environment; ssrfMode defaults to `strict`
@@ -316,16 +317,16 @@ search of collections/requests/environments.
 
 ## 9. Why these choices
 
-| Choice | Why |
-|--------|-----|
-| Next.js 15 monolith | One process, one repo, one port. Easier local dev, easier CI. |
-| `node:sqlite` | Node 24 ships it; no native build, no Python, no prebuilt-binary network risk. |
-| Drizzle schema-as-types | TypeScript inference for repository return values; no `sqliteTable` definition to maintain. |
-| Raw SQL in repositories | Fewer abstractions; SQL is already small and auditable. |
-| Vercel AI SDK | Streaming + multi-vendor support in one package. |
-| BYOK + AES-256-GCM | No server proxy, no telemetry, no per-user state. |
-| Radix primitives + custom Tailwind | Accessible defaults (focus, ARIA) without a heavy component lib. |
-| No component tests (yet) | Backend logic is fully tested; UI surfaces a thin shell. Tests would add CI cost without catching much. |
+| Choice                             | Why                                                                                                     |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| Next.js 15 monolith                | One process, one repo, one port. Easier local dev, easier CI.                                           |
+| `node:sqlite`                      | Node 24 ships it; no native build, no Python, no prebuilt-binary network risk.                          |
+| Drizzle schema-as-types            | TypeScript inference for repository return values; no `sqliteTable` definition to maintain.             |
+| Raw SQL in repositories            | Fewer abstractions; SQL is already small and auditable.                                                 |
+| Vercel AI SDK                      | Streaming + multi-vendor support in one package.                                                        |
+| BYOK + AES-256-GCM                 | No server proxy, no telemetry, no per-user state.                                                       |
+| Radix primitives + custom Tailwind | Accessible defaults (focus, ARIA) without a heavy component lib.                                        |
+| No component tests (yet)           | Backend logic is fully tested; UI surfaces a thin shell. Tests would add CI cost without catching much. |
 
 ---
 

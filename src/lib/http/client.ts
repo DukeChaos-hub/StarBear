@@ -123,12 +123,16 @@ export async function sendRequest(input: SendRequestInput): Promise<SendRequestR
     res = await request(finalUrl, {
       method: input.method,
       headers: rawHeaders,
-      body: input.body && input.method !== 'GET' && input.method !== 'HEAD' ? interpolated.body : undefined,
+      body:
+        input.body && input.method !== 'GET' && input.method !== 'HEAD'
+          ? interpolated.body
+          : undefined,
       signal: controller.signal,
     });
   } catch (e) {
     clearTimeout(t);
-    if ((e as Error).name === 'AbortError') throw new Error(`Request timed out after ${input.timeoutMs}ms`);
+    if ((e as Error).name === 'AbortError')
+      throw new Error(`Request timed out after ${input.timeoutMs}ms`);
     throw e;
   }
   clearTimeout(t);

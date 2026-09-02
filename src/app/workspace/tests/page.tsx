@@ -53,7 +53,9 @@ export default function TestsPage() {
     setCases(casesRaw);
     const reqs: Request[] = [];
     for (const c of collections) {
-      const list: Request[] = await fetch(`/api/requests?collectionId=${c.id}`).then((r) => r.json());
+      const list: Request[] = await fetch(`/api/requests?collectionId=${c.id}`).then((r) =>
+        r.json(),
+      );
       reqs.push(...list);
     }
     setRequests(reqs);
@@ -169,16 +171,25 @@ export default function TestsPage() {
               placeholder="New case name"
               onKeyDown={(e) => e.key === 'Enter' && void createCase()}
             />
-            <Button size="icon" onClick={createCase} disabled={!newName || requests.length === 0} aria-label="Create">
+            <Button
+              size="icon"
+              onClick={createCase}
+              disabled={!newName || requests.length === 0}
+              aria-label="Create"
+            >
               <Plus className="h-3.5 w-3.5" />
             </Button>
           </div>
           {requests.length === 0 && (
-            <p className="mt-1 text-[10px] text-amber-600">Save a request first (no saved requests yet).</p>
+            <p className="mt-1 text-[10px] text-amber-600">
+              Save a request first (no saved requests yet).
+            </p>
           )}
         </div>
         <div className="flex-1 overflow-auto p-2">
-          {cases.length === 0 && <p className="px-2 py-3 text-xs text-muted-foreground">No test cases yet.</p>}
+          {cases.length === 0 && (
+            <p className="px-2 py-3 text-xs text-muted-foreground">No test cases yet.</p>
+          )}
           {cases.map((c) => (
             <div
               key={c.id}
@@ -213,7 +224,12 @@ export default function TestsPage() {
           ))}
         </div>
         <div className="border-t p-2">
-          <Button onClick={runAll} disabled={busy || cases.length === 0} className="w-full" size="sm">
+          <Button
+            onClick={runAll}
+            disabled={busy || cases.length === 0}
+            className="w-full"
+            size="sm"
+          >
             <Play className="h-3.5 w-3.5" /> Run all ({cases.length})
           </Button>
         </div>
@@ -301,7 +317,12 @@ function TestCaseDetail({
 
       <div className="flex-1 overflow-auto p-3 space-y-2">
         {assertions.map((a, i) => (
-          <AssertionRow key={i} assertion={a} onChange={(p) => update(i, p)} onRemove={() => remove(i)} />
+          <AssertionRow
+            key={i}
+            assertion={a}
+            onChange={(p) => update(i, p)}
+            onRemove={() => remove(i)}
+          />
         ))}
         <div className="flex flex-wrap gap-1">
           {(['status', 'latency', 'header', 'jsonpath', 'schema', 'script'] as const).map((t) => (
@@ -328,7 +349,8 @@ function TestCaseDetail({
             </Badge>
             {runResult.response && (
               <span className="text-muted-foreground">
-                {runResult.response.status} · {runResult.response.latencyMs}ms · {runResult.response.size}B
+                {runResult.response.status} · {runResult.response.latencyMs}ms ·{' '}
+                {runResult.response.size}B
               </span>
             )}
             {runResult.error && <span className="text-destructive">{runResult.error}</span>}
@@ -337,7 +359,9 @@ function TestCaseDetail({
             <ul className="space-y-0.5">
               {runResult.assertionsResult.map((a, i) => (
                 <li key={i} className="flex items-center gap-2">
-                  <span className={a.passed ? 'text-emerald-600' : 'text-rose-600'}>{a.passed ? '✓' : '✕'}</span>
+                  <span className={a.passed ? 'text-emerald-600' : 'text-rose-600'}>
+                    {a.passed ? '✓' : '✕'}
+                  </span>
                   <span className="text-muted-foreground">[{a.type}]</span>
                   <span>{a.message}</span>
                 </li>
@@ -362,8 +386,16 @@ function AssertionRow({
   return (
     <div className="rounded-md border bg-card p-2">
       <div className="mb-2 flex items-center gap-2">
-        <span className="rounded bg-muted px-1.5 py-0.5 text-[10px] font-mono uppercase">{assertion.type}</span>
-        <Button size="icon" variant="ghost" onClick={onRemove} aria-label="Remove assertion" className="ml-auto h-6 w-6">
+        <span className="rounded bg-muted px-1.5 py-0.5 text-[10px] font-mono uppercase">
+          {assertion.type}
+        </span>
+        <Button
+          size="icon"
+          variant="ghost"
+          onClick={onRemove}
+          aria-label="Remove assertion"
+          className="ml-auto h-6 w-6"
+        >
           <Trash2 className="h-3 w-3" />
         </Button>
       </div>

@@ -90,7 +90,12 @@ describe('ai-messages repository', () => {
   it('appends and lists in order', async () => {
     const convId = await aiConvs.create({ title: 'Test', kind: 'agent' });
     await aiMsgs.append({ conversationId: convId, role: 'user', content: 'hi', toolCalls: null });
-    await aiMsgs.append({ conversationId: convId, role: 'assistant', content: 'hello', toolCalls: null });
+    await aiMsgs.append({
+      conversationId: convId,
+      role: 'assistant',
+      content: 'hello',
+      toolCalls: null,
+    });
     await aiMsgs.append({
       conversationId: convId,
       role: 'tool',

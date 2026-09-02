@@ -20,22 +20,22 @@ StarBear is an AI-Native, open-source API client and testing tool (think Postman
 - 19 API routes are registered and exercised by integration tests; 5 workspace pages are statically built.
 - Coverage 92.8% on `src/lib/**` (above the 80% floor).
 
-| Phase | Status | Commit |
-|-------|--------|--------|
-| 0 Project Foundation | ✅ | `464a459` |
-| 1 HTTP Engine | ✅ | `ad55bb1` |
-| 2 Data Layer | ✅ | `32f671c` |
-| 2.8 CRUD API routes | ✅ | `aca7c49` |
-| 3 Test Engine | ✅ | `…` |
-| 4 AI Provider Layer | ✅ | `725dbaf` |
-| 5 AI Agent | ✅ | `ba1e331` |
-| 6 UI Foundation | ✅ | `b621193` |
-| 7 Request Editor | ✅ | `30e1e76` |
-| 8 Env + Tests UI | ✅ | `c755b60` |
-| 9 AI Chat | ✅ | `afa30b8` |
-| 10 Settings UI | ✅ | `3f28caf` |
-| 11 Documentation | ⏳ partial | `7baa276` (STATUS); user-guide / architecture / dev-setup done in this session |
-| 12 E2E + GitHub push | ❌ blocked | needs user creds |
+| Phase                | Status     | Commit                                                                         |
+| -------------------- | ---------- | ------------------------------------------------------------------------------ |
+| 0 Project Foundation | ✅         | `464a459`                                                                      |
+| 1 HTTP Engine        | ✅         | `ad55bb1`                                                                      |
+| 2 Data Layer         | ✅         | `32f671c`                                                                      |
+| 2.8 CRUD API routes  | ✅         | `aca7c49`                                                                      |
+| 3 Test Engine        | ✅         | `…`                                                                            |
+| 4 AI Provider Layer  | ✅         | `725dbaf`                                                                      |
+| 5 AI Agent           | ✅         | `ba1e331`                                                                      |
+| 6 UI Foundation      | ✅         | `b621193`                                                                      |
+| 7 Request Editor     | ✅         | `30e1e76`                                                                      |
+| 8 Env + Tests UI     | ✅         | `c755b60`                                                                      |
+| 9 AI Chat            | ✅         | `afa30b8`                                                                      |
+| 10 Settings UI       | ✅         | `3f28caf`                                                                      |
+| 11 Documentation     | ⏳ partial | `7baa276` (STATUS); user-guide / architecture / dev-setup done in this session |
+| 12 E2E + GitHub push | ❌ blocked | needs user creds                                                               |
 
 ## Hard rules
 

@@ -1,4 +1,9 @@
-import { sendRequest, type SendRequestInput, type SendRequestResult, type KeyValue } from '@/lib/http';
+import {
+  sendRequest,
+  type SendRequestInput,
+  type SendRequestResult,
+  type KeyValue,
+} from '@/lib/http';
 import * as collections from '@/lib/db/repositories/collections';
 import * as requests from '@/lib/db/repositories/requests';
 import * as cases from '@/lib/db/repositories/test-cases';
@@ -26,7 +31,10 @@ export const sendRequestTool: ToolDescriptor = {
   parameters: {
     type: 'object',
     properties: {
-      method: { type: 'string', enum: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'] },
+      method: {
+        type: 'string',
+        enum: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
+      },
       url: { type: 'string' },
       headers: { type: 'object', additionalProperties: { type: 'string' } },
       query: { type: 'object', additionalProperties: { type: 'string' } },
@@ -40,7 +48,8 @@ export const sendRequestTool: ToolDescriptor = {
 
 export const runTestCaseTool: ToolDescriptor = {
   name: 'run_test_case',
-  description: 'Run an existing test case by its id. Returns {status, response?, assertionsResult[], error?}.',
+  description:
+    'Run an existing test case by its id. Returns {status, response?, assertionsResult[], error?}.',
   parameters: {
     type: 'object',
     properties: { testCaseId: { type: 'string' } },
@@ -185,7 +194,15 @@ export async function executeTool(name: string, args: unknown, ctx: ToolContext)
     case 'search_requests': {
       const { query } = args as { query: string };
       const all = await requests.search(query);
-      return all.slice(0, 20).map((r) => ({ id: r.id, collectionId: r.collection_id, name: r.name, method: r.method, url: r.url }));
+      return all
+        .slice(0, 20)
+        .map((r) => ({
+          id: r.id,
+          collectionId: r.collection_id,
+          name: r.name,
+          method: r.method,
+          url: r.url,
+        }));
     }
     default:
       throw new Error(`Unknown tool: ${name}`);

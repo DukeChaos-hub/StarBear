@@ -36,10 +36,9 @@ export async function getById(id: string): Promise<TestCaseRow | undefined> {
 }
 
 export async function listByRequest(requestId: string): Promise<TestCaseRow[]> {
-  return all<TestCaseRow>(
-    `SELECT * FROM test_cases WHERE request_id = ? ORDER BY sort_order ASC`,
-    [requestId],
-  );
+  return all<TestCaseRow>(`SELECT * FROM test_cases WHERE request_id = ? ORDER BY sort_order ASC`, [
+    requestId,
+  ]);
 }
 
 export async function listAll(): Promise<TestCaseRow[]> {

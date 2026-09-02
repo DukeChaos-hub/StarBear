@@ -25,7 +25,13 @@ export interface TabsProps {
   className?: string;
 }
 
-export function Tabs({ value: controlled, defaultValue, onValueChange, children, className }: TabsProps) {
+export function Tabs({
+  value: controlled,
+  defaultValue,
+  onValueChange,
+  children,
+  className,
+}: TabsProps) {
   const [internal, setInternal] = React.useState(defaultValue ?? '');
   const value = controlled ?? internal;
   const setValue = (v: string) => {
@@ -40,7 +46,13 @@ export function Tabs({ value: controlled, defaultValue, onValueChange, children,
   );
 }
 
-export function TabsList({ children, className }: { children: React.ReactNode; className?: string }) {
+export function TabsList({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
   return (
     <div
       role="tablist"
@@ -97,11 +109,7 @@ export function TabsContent({
   const ctx = useTabs();
   if (ctx.value !== value) return null;
   return (
-    <div
-      role="tabpanel"
-      data-state="active"
-      className={cn('flex-1 overflow-auto p-3', className)}
-    >
+    <div role="tabpanel" data-state="active" className={cn('flex-1 overflow-auto p-3', className)}>
       {children}
     </div>
   );

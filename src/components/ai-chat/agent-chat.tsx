@@ -50,7 +50,10 @@ export function AgentChat() {
       });
       if (!res.ok || !res.body) {
         const t = await res.text();
-        setMessages((m) => [...m, { id: `e-${Date.now()}`, role: 'error', content: t || `HTTP ${res.status}` }]);
+        setMessages((m) => [
+          ...m,
+          { id: `e-${Date.now()}`, role: 'error', content: t || `HTTP ${res.status}` },
+        ]);
         return;
       }
       const newConv = res.headers.get('x-starbear-conv');
@@ -100,7 +103,11 @@ export function AgentChat() {
           {conversationId ? `conv: ${conversationId.slice(0, 6)}…` : 'new conv'}
         </span>
       </div>
-      <div ref={scrollerRef} className="flex-1 overflow-auto p-3 space-y-2" data-testid="chat-scroll">
+      <div
+        ref={scrollerRef}
+        className="flex-1 overflow-auto p-3 space-y-2"
+        data-testid="chat-scroll"
+      >
         {messages.length === 0 && (
           <p className="px-2 py-4 text-center text-xs text-muted-foreground">
             Ask the agent to list, save, or send requests.
@@ -165,13 +172,19 @@ function Bubble({ m }: { m: ChatMessage }) {
         <span className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded bg-primary/15">
           <Bot className="h-3 w-3 text-primary" />
         </span>
-        <div className="rounded-md bg-muted/50 px-2.5 py-1.5 text-sm whitespace-pre-wrap break-words">{m.content}</div>
+        <div className="rounded-md bg-muted/50 px-2.5 py-1.5 text-sm whitespace-pre-wrap break-words">
+          {m.content}
+        </div>
       </div>
     );
   }
   if (m.role === 'tool-call') {
     return (
-      <div className={cn('ml-7 flex items-center gap-2 rounded border bg-muted/30 px-2 py-1 text-[10px]')}>
+      <div
+        className={cn(
+          'ml-7 flex items-center gap-2 rounded border bg-muted/30 px-2 py-1 text-[10px]',
+        )}
+      >
         <Wrench className="h-3 w-3" />
         <Badge variant="outline" className="px-1 py-0 text-[10px]">
           {m.name}

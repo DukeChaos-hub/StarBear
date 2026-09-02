@@ -4,17 +4,17 @@ Everything you need to work on StarBear.
 
 ## Topics
 
-| Topic | Where to start |
-|-------|----------------|
-| **First-time setup** | [setup.md](./setup.md) |
-| **Last smoke test record** | [last-smoke.md](./last-smoke.md) |
+| Topic                                                   | Where to start                                                                                                                      |
+| ------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| **First-time setup**                                    | [setup.md](./setup.md)                                                                                                              |
+| **Last smoke test record**                              | [last-smoke.md](./last-smoke.md)                                                                                                    |
 | **AI agent contract** (external agents / SDK consumers) | [../ai-agent/agent-manifest.json](../ai-agent/agent-manifest.json) · [../ai-agent/tool-reference.md](../ai-agent/tool-reference.md) |
-| **Design spec** | [../superpowers/specs/2026-09-01-starbear-v1-design.md](../superpowers/specs/2026-09-01-starbear-v1-design.md) |
-| **Implementation plan** | [../superpowers/plans/2026-09-01-starbear-v1.md](../superpowers/plans/2026-09-01-starbear-v1.md) |
-| **Top-level operating manual** | [../../AGENTS.md](../../AGENTS.md) |
-| **Contributing** | [../../CONTRIBUTING.md](../../CONTRIBUTING.md) |
-| **Changelog** | [../../CHANGELOG.md](../../CHANGELOG.md) |
-| **Project status** | [../STATUS.md](../STATUS.md) |
+| **Design spec**                                         | [../superpowers/specs/2026-09-01-starbear-v1-design.md](../superpowers/specs/2026-09-01-starbear-v1-design.md)                      |
+| **Implementation plan**                                 | [../superpowers/plans/2026-09-01-starbear-v1.md](../superpowers/plans/2026-09-01-starbear-v1.md)                                    |
+| **Top-level operating manual**                          | [../../AGENTS.md](../../AGENTS.md)                                                                                                  |
+| **Contributing**                                        | [../../CONTRIBUTING.md](../../CONTRIBUTING.md)                                                                                      |
+| **Changelog**                                           | [../../CHANGELOG.md](../../CHANGELOG.md)                                                                                            |
+| **Project status**                                      | [../STATUS.md](../STATUS.md)                                                                                                        |
 
 ## Quick reference
 

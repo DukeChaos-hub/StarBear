@@ -21,7 +21,12 @@ afterAll(() => {
 describe('runAgent', () => {
   it('errors when no provider is configured', async () => {
     const out: string[] = [];
-    for await (const s of runAgent({ conversationId: 'c1', userMessage: 'hi', vars: {}, ssrfMode: 'strict' })) {
+    for await (const s of runAgent({
+      conversationId: 'c1',
+      userMessage: 'hi',
+      vars: {},
+      ssrfMode: 'strict',
+    })) {
       out.push(s.kind);
     }
     expect(out).toContain('error');
@@ -36,7 +41,12 @@ describe('runAgent', () => {
       masterKeyCheck: 'ok',
     });
     const out: string[] = [];
-    for await (const s of runAgent({ conversationId: 'c1', userMessage: 'hi', vars: {}, ssrfMode: 'strict' })) {
+    for await (const s of runAgent({
+      conversationId: 'c1',
+      userMessage: 'hi',
+      vars: {},
+      ssrfMode: 'strict',
+    })) {
       out.push(s.kind);
     }
     expect(out).toContain('error');
@@ -51,7 +61,12 @@ describe('runAgent', () => {
       masterKeyCheck: 'ok',
     });
     const out: string[] = [];
-    for await (const s of runAgent({ conversationId: 'c1', userMessage: 'hi', vars: {}, ssrfMode: 'strict' })) {
+    for await (const s of runAgent({
+      conversationId: 'c1',
+      userMessage: 'hi',
+      vars: {},
+      ssrfMode: 'strict',
+    })) {
       out.push(s.kind);
     }
     expect(out).toContain('error');

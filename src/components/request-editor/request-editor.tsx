@@ -82,7 +82,11 @@ export function RequestEditor(props: RequestEditorProps) {
       }
       setResponse({ kind: 'ok', result: json });
     } catch (e) {
-      setResponse({ kind: 'error', status: 0, body: { error: 'network', message: (e as Error).message } });
+      setResponse({
+        kind: 'error',
+        status: 0,
+        body: { error: 'network', message: (e as Error).message },
+      });
     } finally {
       setSending(false);
     }
@@ -119,10 +123,22 @@ export function RequestEditor(props: RequestEditorProps) {
           <TabsTrigger value="auth">Auth</TabsTrigger>
         </TabsList>
         <TabsContent value="params" className="space-y-2">
-          <KvTable rows={query} onChange={setQuery} keyPlaceholder="param" valuePlaceholder="value" testId="query-table" />
+          <KvTable
+            rows={query}
+            onChange={setQuery}
+            keyPlaceholder="param"
+            valuePlaceholder="value"
+            testId="query-table"
+          />
         </TabsContent>
         <TabsContent value="headers" className="space-y-2">
-          <KvTable rows={headers} onChange={setHeaders} keyPlaceholder="Header-Name" valuePlaceholder="value" testId="headers-table" />
+          <KvTable
+            rows={headers}
+            onChange={setHeaders}
+            keyPlaceholder="Header-Name"
+            valuePlaceholder="value"
+            testId="headers-table"
+          />
         </TabsContent>
         <TabsContent value="body" className="space-y-2">
           <div className="flex items-center gap-2">

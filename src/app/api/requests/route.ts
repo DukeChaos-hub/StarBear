@@ -20,15 +20,17 @@ const RequestInput = z.object({
 
 export async function GET(req: NextRequest) {
   const collectionId = req.nextUrl.searchParams.get('collectionId');
-  if (!collectionId)
-    return NextResponse.json({ error: 'collectionId required' }, { status: 400 });
+  if (!collectionId) return NextResponse.json({ error: 'collectionId required' }, { status: 400 });
   return NextResponse.json(await requests.listByCollection(collectionId));
 }
 
 export async function POST(req: NextRequest) {
   const parsed = RequestInput.safeParse(await req.json().catch(() => null));
   if (!parsed.success)
-    return NextResponse.json({ error: 'invalid_input', issues: parsed.error.issues }, { status: 400 });
+    return NextResponse.json(
+      { error: 'invalid_input', issues: parsed.error.issues },
+      { status: 400 },
+    );
   const id = await requests.create(parsed.data);
   return NextResponse.json({ id }, { status: 201 });
 }

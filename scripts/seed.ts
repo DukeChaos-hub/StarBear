@@ -48,10 +48,22 @@ if (!rowExists('collections', 'name', 'Sandbox')) {
      VALUES (?, 'Sandbox', 'Try requests against httpbin. Replace {host} via the env.', NULL, 0, ?, ?)`,
     [colId, now, now],
   );
-  type Req = { name: string; method: string; url: string; authKind: string; authConfig: string | null };
+  type Req = {
+    name: string;
+    method: string;
+    url: string;
+    authKind: string;
+    authConfig: string | null;
+  };
   const requests: Req[] = [
     { name: 'GET /get', method: 'GET', url: '{host}/get', authKind: 'none', authConfig: null },
-    { name: 'POST /post (json body)', method: 'POST', url: '{host}/post', authKind: 'none', authConfig: null },
+    {
+      name: 'POST /post (json body)',
+      method: 'POST',
+      url: '{host}/post',
+      authKind: 'none',
+      authConfig: null,
+    },
     {
       name: 'Auth example (with bearer)',
       method: 'GET',

@@ -71,7 +71,9 @@ describe('CRUD round-trips', () => {
   });
 
   it('requests: create → listByCollection', async () => {
-    const col = (await (await collectionsPOST(req('http://x/api/collections', { name: 'X' }))).json()) as {
+    const col = (await (
+      await collectionsPOST(req('http://x/api/collections', { name: 'X' }))
+    ).json()) as {
       id: string;
     };
     const create = await requestsPOST(
@@ -92,9 +94,7 @@ describe('CRUD round-trips', () => {
       }),
     );
     expect(create.status).toBe(201);
-    const list = await requestsGET(
-      new NextRequest(`http://x/api/requests?collectionId=${col.id}`),
-    );
+    const list = await requestsGET(new NextRequest(`http://x/api/requests?collectionId=${col.id}`));
     expect(list.status).toBe(200);
     expect((await list.json()).length).toBe(1);
   });
@@ -120,7 +120,9 @@ describe('CRUD round-trips', () => {
   });
 
   it('env-variables: create + list by envId', async () => {
-    const env = (await (await envsPOST(req('http://x/api/environments', { name: 'dev' }))).json()) as {
+    const env = (await (
+      await envsPOST(req('http://x/api/environments', { name: 'dev' }))
+    ).json()) as {
       id: string;
     };
     await varsPOST(
@@ -138,7 +140,9 @@ describe('CRUD round-trips', () => {
   });
 
   it('test-cases: create + list all', async () => {
-    const col = (await (await collectionsPOST(req('http://x/api/collections', { name: 'X' }))).json()) as {
+    const col = (await (
+      await collectionsPOST(req('http://x/api/collections', { name: 'X' }))
+    ).json()) as {
       id: string;
     };
     const r = (await (

@@ -79,7 +79,8 @@ export async function assertSsrfSafe(rawUrl: string, mode: SsrfMode): Promise<vo
     const addrs = await lookup(host, { all: true });
     for (const a of addrs) {
       if (isPrivateHost(a.address)) {
-        if (mode === 'strict') throw new SsrfBlockedError(`resolves to private: ${a.address}`, rawUrl);
+        if (mode === 'strict')
+          throw new SsrfBlockedError(`resolves to private: ${a.address}`, rawUrl);
       }
     }
   } catch (e) {

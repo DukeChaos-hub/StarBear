@@ -45,7 +45,9 @@ describe('seed script', () => {
     expect(out).toContain('collection: Sandbox');
     expect(out).toContain('Done.');
 
-    const envs = all<{ name: string; is_active: number }>(`SELECT name, is_active FROM environments`);
+    const envs = all<{ name: string; is_active: number }>(
+      `SELECT name, is_active FROM environments`,
+    );
     expect(envs.length).toBe(1);
     expect(envs[0]).toMatchObject({ name: 'dev', is_active: 1 });
 

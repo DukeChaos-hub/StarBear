@@ -6,12 +6,12 @@ Get StarBear running on a fresh Windows / macOS / Linux machine in ~5 minutes.
 
 ## 1. Prerequisites
 
-| Tool | Version | Why |
-|------|---------|-----|
+| Tool    | Version                                 | Why                                                     |
+| ------- | --------------------------------------- | ------------------------------------------------------- |
 | Node.js | **22.5+** (project tested on **24.19**) | `node:sqlite` requires 22.5; project's `.nvmrc` pins 24 |
-| pnpm | **10+** | `packageManager` in `package.json` is `pnpm@10.0.0` |
-| Git | 2.30+ | Conventional Commits lints in CI |
-| OS | Windows / macOS / Linux | Windows requires PowerShell 5.1+ (already on Win10/11) |
+| pnpm    | **10+**                                 | `packageManager` in `package.json` is `pnpm@10.0.0`     |
+| Git     | 2.30+                                   | Conventional Commits lints in CI                        |
+| OS      | Windows / macOS / Linux                 | Windows requires PowerShell 5.1+ (already on Win10/11)  |
 
 Optional:
 
@@ -43,12 +43,12 @@ cp .env.example .env.local
 
 Variables:
 
-| Name | Default | Purpose |
-|------|---------|---------|
-| `STARBEAR_DB` | `.starbear/starbear.sqlite` | SQLite file path. Tests override this. |
+| Name                  | Default                                        | Purpose                                   |
+| --------------------- | ---------------------------------------------- | ----------------------------------------- |
+| `STARBEAR_DB`         | `.starbear/starbear.sqlite`                    | SQLite file path. Tests override this.    |
 | `STARBEAR_MASTER_KEY` | _(auto-generated at `~/.starbear/master.key`)_ | Base64 of 32 bytes. Set explicitly in CI. |
-| `PORT` | `3000` | Next dev port. |
-| `NODE_ENV` | `development` | Standard. |
+| `PORT`                | `3000`                                         | Next dev port.                            |
+| `NODE_ENV`            | `development`                                  | Standard.                                 |
 
 > If you lose `STARBEAR_MASTER_KEY`, your saved AI provider keys are
 > unrecoverable. Delete them and re-paste.
@@ -88,14 +88,14 @@ If any of these fail, check [troubleshooting](#troubleshooting).
 
 ## 7. Common dev tasks
 
-| Task | Command |
-|------|---------|
-| Run a single test file | `pnpm exec vitest run tests/unit/http/ssrf-guard.test.ts` |
-| Watch tests | `pnpm test:watch` |
-| Coverage | `pnpm test:coverage` (writes `coverage/`) |
-| Lint | `pnpm lint` (or `pnpm exec eslint src/`) |
-| Format | `pnpm format` (writes) or `pnpm format:check` (CI) |
-| Regenerate agent manifest | `pnpm gen:agent-manifest` |
+| Task                      | Command                                                   |
+| ------------------------- | --------------------------------------------------------- |
+| Run a single test file    | `pnpm exec vitest run tests/unit/http/ssrf-guard.test.ts` |
+| Watch tests               | `pnpm test:watch`                                         |
+| Coverage                  | `pnpm test:coverage` (writes `coverage/`)                 |
+| Lint                      | `pnpm lint` (or `pnpm exec eslint src/`)                  |
+| Format                    | `pnpm format` (writes) or `pnpm format:check` (CI)        |
+| Regenerate agent manifest | `pnpm gen:agent-manifest`                                 |
 
 ## 8. Troubleshooting
 

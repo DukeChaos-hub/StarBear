@@ -19,7 +19,10 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   const parsed = Input.safeParse(await req.json().catch(() => null));
   if (!parsed.success)
-    return NextResponse.json({ error: 'invalid_input', issues: parsed.error.issues }, { status: 400 });
+    return NextResponse.json(
+      { error: 'invalid_input', issues: parsed.error.issues },
+      { status: 400 },
+    );
   const id = await vars.create(parsed.data);
   return NextResponse.json({ id }, { status: 201 });
 }

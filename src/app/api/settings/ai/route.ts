@@ -18,9 +18,10 @@ export async function GET() {
     modelByProvider: s.modelByProvider,
     baseUrlByProvider: s.baseUrlByProvider,
     keySetByProvider: Object.fromEntries(
-      Object.keys({ ...s.modelByProvider, ...s.baseUrlByProvider, ...s.encryptedKeys }).map(
-        (p) => [p, Boolean(s.encryptedKeys[p])],
-      ),
+      Object.keys({ ...s.modelByProvider, ...s.baseUrlByProvider, ...s.encryptedKeys }).map((p) => [
+        p,
+        Boolean(s.encryptedKeys[p]),
+      ]),
     ),
   });
 }

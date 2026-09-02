@@ -8,8 +8,23 @@ import { cn } from '@/lib/utils/cn';
 
 export type ResponseState =
   | { kind: 'loading' }
-  | { kind: 'ok'; result: { status: number; statusText: string; latencyMs: number; size: number; body: string; bodyJson?: unknown; headers: Record<string, string> } }
-  | { kind: 'error'; status: number; body: { error?: string; message?: string; reason?: string; name?: string } };
+  | {
+      kind: 'ok';
+      result: {
+        status: number;
+        statusText: string;
+        latencyMs: number;
+        size: number;
+        body: string;
+        bodyJson?: unknown;
+        headers: Record<string, string>;
+      };
+    }
+  | {
+      kind: 'error';
+      status: number;
+      body: { error?: string; message?: string; reason?: string; name?: string };
+    };
 
 function statusVariant(status: number): 'success' | 'warning' | 'danger' | 'secondary' {
   if (status === 0) return 'danger';
@@ -66,7 +81,9 @@ export function ResponseViewer({ state }: { state: ResponseState | null }) {
           <p className="mt-1 text-xs text-muted-foreground">SSRF: {state.body.reason}</p>
         )}
         {state.body.name && (
-          <p className="mt-1 text-xs text-muted-foreground">Unresolved variable: {state.body.name}</p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Unresolved variable: {state.body.name}
+          </p>
         )}
       </div>
     );
@@ -109,7 +126,9 @@ function BodyPretty({ body }: { body: string }) {
             onClick={() => setMode(m)}
             className={cn(
               'rounded px-2 py-0.5 uppercase',
-              mode === m ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:bg-accent/60',
+              mode === m
+                ? 'bg-accent text-accent-foreground'
+                : 'text-muted-foreground hover:bg-accent/60',
             )}
           >
             {m}

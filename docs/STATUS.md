@@ -30,22 +30,22 @@ ba1e331 feat(agent): phase 5 — 5 tools, bounded runtime, SSE /api/ai-agent
 
 ## Phase status
 
-| # | Phase | Status | Notes |
-|---|-------|--------|-------|
-| 0 | Project Foundation | ✅ done | Next 15, React 19, TS strict, Vitest, shadcn/ui, CI, Tailwind, Prettier, ESLint |
-| 1 | Core HTTP Engine | ✅ done | `{{var}}` interpolate (deep), SSRF guard, undici client, `/api/request` |
-| 2 | Data Layer | ✅ done | 10 tables, 9 repos (raw SQL via `node:sqlite`), Drizzle Kit for migration generation |
-| 2.8 | CRUD API Routes | ✅ done | 14 endpoints: collections, requests, environments, env-variables, test-cases, test-runs |
-| 3 | Test Engine | ✅ done | 6 assertion types (status/latency/header/jsonpath/schema/script), runner, `/api/tests` + `/api/tests/suite` |
-| 4 | AI Provider Layer | ✅ done | 4 adapters (OpenAI / Anthropic / Google / DeepSeek) + AES-256-GCM key encryption |
-| 5 | AI Agent | ✅ done | 5 tool descriptors, bounded 10-step runtime, SSE streaming, `/api/ai-agent` |
-| 6 | UI Foundation | ✅ done | AppShell (sidebar + topbar + optional right pane), env switcher, command palette, Zustand store, `/` → `/workspace` redirect |
-| 7 | Request Editor UI | ✅ done | Method + URL + Send + Save, 4 tabs (Params/Headers/Body/Auth), response viewer (pretty/raw/preview + headers), save-to-collection dialog |
-| 8 | Environments + Tests UI | ✅ done | Env editor (CRUD + activate + secret vars), tests UI (CRUD + run single + run suite + 6 assertion editors) |
-| 9 | AI Chat UI | ✅ done | Right-pane streaming chat, tool call cards, fullscreen `/workspace/agent` view |
-| 10 | Settings UI | ✅ done | Per-provider cards (model, base URL, encrypted key with reveal + clear), active provider dropdown |
-| 11 | Documentation | ⏳ in-progress | Status file is current; final docs pass (user guide, screenshots) pending |
-| 12 | E2E + GitHub push | ❌ blocked | Playwright config exists; push blocked on user providing GitHub credentials |
+| #   | Phase                   | Status         | Notes                                                                                                                                    |
+| --- | ----------------------- | -------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| 0   | Project Foundation      | ✅ done        | Next 15, React 19, TS strict, Vitest, shadcn/ui, CI, Tailwind, Prettier, ESLint                                                          |
+| 1   | Core HTTP Engine        | ✅ done        | `{{var}}` interpolate (deep), SSRF guard, undici client, `/api/request`                                                                  |
+| 2   | Data Layer              | ✅ done        | 10 tables, 9 repos (raw SQL via `node:sqlite`), Drizzle Kit for migration generation                                                     |
+| 2.8 | CRUD API Routes         | ✅ done        | 14 endpoints: collections, requests, environments, env-variables, test-cases, test-runs                                                  |
+| 3   | Test Engine             | ✅ done        | 6 assertion types (status/latency/header/jsonpath/schema/script), runner, `/api/tests` + `/api/tests/suite`                              |
+| 4   | AI Provider Layer       | ✅ done        | 4 adapters (OpenAI / Anthropic / Google / DeepSeek) + AES-256-GCM key encryption                                                         |
+| 5   | AI Agent                | ✅ done        | 5 tool descriptors, bounded 10-step runtime, SSE streaming, `/api/ai-agent`                                                              |
+| 6   | UI Foundation           | ✅ done        | AppShell (sidebar + topbar + optional right pane), env switcher, command palette, Zustand store, `/` → `/workspace` redirect             |
+| 7   | Request Editor UI       | ✅ done        | Method + URL + Send + Save, 4 tabs (Params/Headers/Body/Auth), response viewer (pretty/raw/preview + headers), save-to-collection dialog |
+| 8   | Environments + Tests UI | ✅ done        | Env editor (CRUD + activate + secret vars), tests UI (CRUD + run single + run suite + 6 assertion editors)                               |
+| 9   | AI Chat UI              | ✅ done        | Right-pane streaming chat, tool call cards, fullscreen `/workspace/agent` view                                                           |
+| 10  | Settings UI             | ✅ done        | Per-provider cards (model, base URL, encrypted key with reveal + clear), active provider dropdown                                        |
+| 11  | Documentation           | ⏳ in-progress | Status file is current; final docs pass (user guide, screenshots) pending                                                                |
+| 12  | E2E + GitHub push       | ❌ blocked     | Playwright config exists; push blocked on user providing GitHub credentials                                                              |
 
 ## Build output (latest `pnpm build`)
 

@@ -101,12 +101,8 @@
           "name": "ai_messages_conversation_id_ai_conversations_id_fk",
           "tableFrom": "ai_messages",
           "tableTo": "ai_conversations",
-          "columnsFrom": [
-            "conversation_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["conversation_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -285,10 +281,7 @@
       "indexes": {
         "env_variables_env_id_key_unique": {
           "name": "env_variables_env_id_key_unique",
-          "columns": [
-            "env_id",
-            "key"
-          ],
+          "columns": ["env_id", "key"],
           "isUnique": true
         }
       },
@@ -297,12 +290,8 @@
           "name": "env_variables_env_id_environments_id_fk",
           "tableFrom": "env_variables",
           "tableTo": "environments",
-          "columnsFrom": [
-            "env_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["env_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -354,9 +343,7 @@
       "indexes": {
         "environments_name_unique": {
           "name": "environments_name_unique",
-          "columns": [
-            "name"
-          ],
+          "columns": ["name"],
           "isUnique": true
         }
       },
@@ -492,12 +479,8 @@
           "name": "requests_collection_id_collections_id_fk",
           "tableFrom": "requests",
           "tableTo": "collections",
-          "columnsFrom": [
-            "collection_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["collection_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -573,12 +556,8 @@
           "name": "test_cases_request_id_requests_id_fk",
           "tableFrom": "test_cases",
           "tableTo": "requests",
-          "columnsFrom": [
-            "request_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["request_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -660,12 +639,8 @@
           "name": "test_run_steps_run_id_test_runs_id_fk",
           "tableFrom": "test_run_steps",
           "tableTo": "test_runs",
-          "columnsFrom": [
-            "run_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["run_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }

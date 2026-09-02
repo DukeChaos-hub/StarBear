@@ -76,7 +76,9 @@ describe('repositories — update paths', () => {
   });
 
   it('env-variables.update patches key, value, isSecret, sortOrder', async () => {
-    const envId = (await (await import('@/lib/db/repositories/environments')).create({ name: 'dev' }));
+    const envId = await (
+      await import('@/lib/db/repositories/environments')
+    ).create({ name: 'dev' });
     const v1 = await envVars.create({
       envId,
       key: 'k1',

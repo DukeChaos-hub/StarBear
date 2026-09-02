@@ -17,9 +17,7 @@ export default defineConfig({
       'tests/component/**/*.test.tsx',
     ],
     // Component tests need a DOM. Unit + integration stay on node for speed.
-    environmentMatchGlobs: [
-      ['tests/component/**', 'jsdom'],
-    ],
+    environmentMatchGlobs: [['tests/component/**', 'jsdom']],
     // jsdom needs setup; we extend with @testing-library/jest-dom matchers.
     setupFiles: ['tests/component/setup.ts'],
     pool: 'forks',
@@ -55,6 +53,14 @@ export default defineConfig({
     alias: { '@': resolve(__dirname, './src') },
   },
   optimizeDeps: {
-    exclude: ['node:sqlite', 'node:dns/promises', 'node:net', 'node:fs', 'node:path', 'node:os', 'node:crypto'],
+    exclude: [
+      'node:sqlite',
+      'node:dns/promises',
+      'node:net',
+      'node:fs',
+      'node:path',
+      'node:os',
+      'node:crypto',
+    ],
   },
 });

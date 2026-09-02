@@ -88,15 +88,15 @@ curl -X POST http://localhost:3000/api/request \
 
 ## Architecture
 
-| Layer | Stack |
-|-------|-------|
-| Framework | Next.js 15 + React 19 + TypeScript 5 (strict) |
-| UI primitives | shadcn-style on Radix UI + custom Tailwind |
-| Database | SQLite via Node 24's built-in `node:sqlite` |
-| Migrations | Drizzle Kit (generation only; raw SQL in repos) |
-| AI | Vercel AI SDK v4 + 4 vendor adapters |
-| Agent | 5 tools, bounded 10-step runtime, SSE streaming |
-| Tests | Vitest (unit/integration) + Playwright (E2E, config ready) |
+| Layer         | Stack                                                      |
+| ------------- | ---------------------------------------------------------- |
+| Framework     | Next.js 15 + React 19 + TypeScript 5 (strict)              |
+| UI primitives | shadcn-style on Radix UI + custom Tailwind                 |
+| Database      | SQLite via Node 24's built-in `node:sqlite`                |
+| Migrations    | Drizzle Kit (generation only; raw SQL in repos)            |
+| AI            | Vercel AI SDK v4 + 4 vendor adapters                       |
+| Agent         | 5 tools, bounded 10-step runtime, SSE streaming            |
+| Tests         | Vitest (unit/integration) + Playwright (E2E, config ready) |
 
 See [**docs/architecture.md**](./docs/architecture.md) for the full design.
 
