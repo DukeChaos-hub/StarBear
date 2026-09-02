@@ -1,11 +1,13 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { Bot, Send, User, Wrench } from 'lucide-react';
+import { Bot, MessageSquarePlus, Send, Trash2, User, Wrench } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
+import { ConfirmDialog } from '@/components/ui/confirm-dialog';
 import { cn } from '@/lib/utils/cn';
+import { useFetch } from '@/lib/hooks/use-fetch';
 
 type ChatMessage =
   | { id: string; role: 'user' | 'assistant'; content: string }
@@ -18,12 +20,49 @@ interface ToolCallWire {
   args: unknown;
 }
 
+interface ConversationSummary {
+  id: string;
+  title: string;
+  kind: string;
+  created_at: number;
+  updated_at: number;
+}
+
+interface PersistedMessage {
+  id: string;
+  role: string;
+  content: string | null;
+  toolCalls: unknown;
+}
+
 export function AgentChat() {
+  const conversations = useFetch<ConversationSummary[]>('/api/ai-conversations');
+  const [conversationId, setConversationId] = useState<string | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [busy, setBusy] = useState(false);
-  const [conversationId, setConversationId] = useState<string | null>(null);
   const scrollerRef = useRef<HTMLDivElement | null>(null);
+
+  // When a conversation is selected, fetch its messages.
+  useEffect(() => {
+    if (!conversationId) {
+      setMessages([]);
+      return;
+    }
+    let cancelled = false;
+    fetch(`/api/ai-conversations/${conversationId}/messages`)
+      .then((r) => r.json())
+      .then((rows: PersistedMessage[]) => {
+        if (cancelled) return;
+        setMessages(rows.flatMap((m) => persistedToChat(m)));
+      })
+      .catch(() => {
+        /* ignore: chat works without history */
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [conversationId]);
 
   useEffect(() => {
     if (scrollerRef.current) {
@@ -57,7 +96,10 @@ export function AgentChat() {
         return;
       }
       const newConv = res.headers.get('x-starbear-conv');
-      if (newConv) setConversationId(newConv);
+      if (newConv && newConv !== conversationId) {
+        setConversationId(newConv);
+        conversations.refresh();
+      }
 
       const reader = res.body.getReader();
       const dec = new TextDecoder();
@@ -94,14 +136,70 @@ export function AgentChat() {
     }
   };
 
+  const startNew = () => {
+    setConversationId(null);
+    setMessages([]);
+  };
+
+  const loadConv = (id: string) => {
+    if (id === conversationId) return;
+    setConversationId(id);
+  };
+
   return (
     <div className="flex h-full flex-col">
-      <div className="flex items-center gap-2 border-b bg-background/80 px-3 py-2 backdrop-blur">
-        <Bot className="h-4 w-4 text-primary" />
+      <div className="flex items-center gap-1 border-b bg-background/80 px-2 py-1.5 backdrop-blur">
+        <Bot className="ml-1 h-4 w-4 text-primary" />
         <h2 className="text-sm font-semibold">AI Agent</h2>
-        <span className="ml-auto text-[10px] text-muted-foreground">
-          {conversationId ? `conv: ${conversationId.slice(0, 6)}…` : 'new conv'}
-        </span>
+        <Button
+          size="sm"
+          variant="ghost"
+          className="ml-1 h-7 px-2 text-xs"
+          onClick={startNew}
+          aria-label="New conversation"
+        >
+          <MessageSquarePlus className="h-3.5 w-3.5" /> New
+        </Button>
+        {conversations.data && conversations.data.length > 0 && (
+          <select
+            value={conversationId ?? ''}
+            onChange={(e) => loadConv(e.target.value)}
+            className="ml-1 h-7 max-w-[160px] truncate rounded-md border border-input bg-background px-2 text-xs"
+            aria-label="Load conversation"
+          >
+            <option value="">— history —</option>
+            {conversations.data.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.title.length > 30 ? c.title.slice(0, 30) + '…' : c.title}
+              </option>
+            ))}
+          </select>
+        )}
+        {conversationId && (
+          <ConfirmDialog
+            title="Delete this conversation?"
+            description="This will permanently remove the conversation and all of its messages from the server. The current view will not change until you start a new chat."
+            onConfirm={async () => {
+              await fetch(`/api/ai-conversations?id=${conversationId}`, {
+                method: 'DELETE',
+              });
+              conversations.refresh();
+              setConversationId(null);
+              setMessages([]);
+            }}
+            trigger={(open) => (
+              <Button
+                size="icon"
+                variant="ghost"
+                className="ml-auto h-7 w-7"
+                onClick={open}
+                aria-label="Delete conversation"
+              >
+                <Trash2 className="h-3.5 w-3.5" />
+              </Button>
+            )}
+          />
+        )}
       </div>
       <div
         ref={scrollerRef}
@@ -110,9 +208,9 @@ export function AgentChat() {
       >
         {messages.length === 0 && (
           <p className="px-2 py-4 text-center text-xs text-muted-foreground">
-            Ask the agent to list, save, or send requests.
-            <br />
-            {'e.g. "find all POST requests" or "send a request to /users/1"'}
+            {conversationId
+              ? 'No messages in this conversation yet.'
+              : 'Ask the agent to list, save, or send requests. e.g. "find all POST requests" or "send a request to /users/1"'}
           </p>
         )}
         {messages.map((m) => (
@@ -155,6 +253,26 @@ export function AgentChat() {
   );
 }
 
+function persistedToChat(m: PersistedMessage): ChatMessage[] {
+  if (m.role === 'user' || m.role === 'assistant') {
+    if (m.content) {
+      return [{ id: m.id, role: m.role, content: m.content }];
+    }
+    if (m.role === 'assistant' && Array.isArray(m.toolCalls) && m.toolCalls.length > 0) {
+      // Render each tool call as its own bubble. A follow-up assistant text
+      // message (if any) will arrive in the next row.
+      return (m.toolCalls as { name: string; args?: unknown }[]).map((tc, i) => ({
+        id: `${m.id}-tc-${i}`,
+        role: 'tool-call' as const,
+        name: tc.name,
+        args: tc.args,
+      }));
+    }
+    return [];
+  }
+  return [];
+}
+
 function Bubble({ m }: { m: ChatMessage }) {
   if (m.role === 'user') {
     return (
@@ -180,11 +298,7 @@ function Bubble({ m }: { m: ChatMessage }) {
   }
   if (m.role === 'tool-call') {
     return (
-      <div
-        className={cn(
-          'ml-7 flex items-center gap-2 rounded border bg-muted/30 px-2 py-1 text-[10px]',
-        )}
-      >
+      <div className="ml-7 flex items-center gap-2 rounded border bg-muted/30 px-2 py-1 text-[10px]">
         <Wrench className="h-3 w-3" />
         <Badge variant="outline" className="px-1 py-0 text-[10px]">
           {m.name}
