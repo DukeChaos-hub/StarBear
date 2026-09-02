@@ -6,7 +6,7 @@
  * EBUSY issue you would hit trying to unlink the SQLite file while
  * another process (e.g. the running dev server) still has it open.
  */
-import { all, exec, migrate, closeDb } from '../src/lib/db/client';
+import { exec, migrate, closeDb } from '../src/lib/db/client';
 
 const DROP_ORDER = [
   'test_run_steps',

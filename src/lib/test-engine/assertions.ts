@@ -120,7 +120,6 @@ export function runAssertion(a: Assertion, result: SendRequestResult): Assertion
       // v1 sandbox: a single expression evaluated with `result` in scope.
       // No network. No process access. No globals beyond `result`.
       try {
-        // eslint-disable-next-line no-new-func
         const fn = new Function('result', `return (${a.source});`);
         const out = fn(result);
         return { type: a.type, passed: !!out, message: `script ${!!out ? 'passed' : 'failed'}` };

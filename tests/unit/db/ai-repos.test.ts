@@ -6,7 +6,6 @@ import { migrate, closeDb, all } from '@/lib/db/client';
 import * as aiSettings from '@/lib/db/repositories/ai-settings';
 import * as aiConvs from '@/lib/db/repositories/ai-conversations';
 import * as aiMsgs from '@/lib/db/repositories/ai-messages';
-import { newId } from '@/lib/utils/nanoid-wrapper';
 
 let dir: string;
 beforeEach(() => {

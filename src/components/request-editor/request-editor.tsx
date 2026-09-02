@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
-import { MethodSelect, HTTP_METHODS, type HttpMethodChoice } from './method-select';
+import { MethodSelect, type HttpMethodChoice } from './method-select';
 import { KvTable, type KeyValueRow } from './kv-table';
 import { SaveDialog } from './save-dialog';
 import { ResponseViewer, type ResponseState } from '@/components/response-viewer/response-viewer';

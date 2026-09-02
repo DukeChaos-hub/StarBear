@@ -4,10 +4,8 @@
  *
  * Run: pnpm db:seed
  */
-import { closeDb, getDb, run, all } from '../src/lib/db/client';
+import { closeDb, run, all } from '../src/lib/db/client';
 import { newId } from '../src/lib/utils/nanoid-wrapper';
-
-const db = getDb();
 
 function rowExists(table: string, where: string, value: string): boolean {
   const r = all<{ c: number }>(`SELECT COUNT(*) as c FROM ${table} WHERE ${where} = ?`, [value]);

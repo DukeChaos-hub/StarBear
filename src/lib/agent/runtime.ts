@@ -1,4 +1,4 @@
-import { getProvider, type Message, type StreamChunk, type ToolCall } from '@/lib/ai';
+import { getProvider, type Message, type ToolCall } from '@/lib/ai';
 import { decryptKey, ensureMasterKey } from '@/lib/ai/crypto';
 import { getSettings } from '@/lib/db/ai-settings';
 import { allToolDescriptors, executeTool, type ToolContext } from './tools';

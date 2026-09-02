@@ -20,6 +20,7 @@ export default [
       'node_modules/**',
       'playwright-report/**',
       'test-results/**',
+      'coverage/**',
       'src/lib/db/migrations/**',
       'src/lib/db/sqlite-shim.cjs',
       'src/lib/db/sqlite-shim.d.cts',

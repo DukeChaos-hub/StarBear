@@ -8,8 +8,6 @@ import * as collections from '@/lib/db/repositories/collections';
 import * as requests from '@/lib/db/repositories/requests';
 import * as cases from '@/lib/db/repositories/test-cases';
 import { runTestCase, parseAssertionsJson } from '@/lib/test-engine';
-import * as envRepo from '@/lib/db/repositories/environments';
-import * as varsRepo from '@/lib/db/repositories/env-variables';
 import { getSettings } from '@/lib/db/ai-settings';
 
 export interface ToolContext {
