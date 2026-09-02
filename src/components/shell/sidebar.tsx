@@ -6,6 +6,7 @@ import {
   Beaker,
   Bot,
   Folder,
+  Server,
   Settings as SettingsIcon,
   Sparkles,
   TestTube2,
@@ -24,6 +25,7 @@ const NAV: NavItem[] = [
   { label: 'Overview', href: '/workspace', icon: Folder },
   { label: 'Environments', href: '/workspace/environments', icon: Variable },
   { label: 'Tests', href: '/workspace/tests', icon: TestTube2 },
+  { label: 'Mocks', href: '/workspace/mocks', icon: Server },
   { label: 'AI Agent', href: '/workspace/agent', icon: Bot },
   { label: 'Settings', href: '/workspace/settings', icon: SettingsIcon },
 ];
