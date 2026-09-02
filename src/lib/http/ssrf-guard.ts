@@ -85,5 +85,9 @@ export async function assertSsrfSafe(rawUrl: string, mode: SsrfMode): Promise<vo
     }
   } catch (e) {
     if (e instanceof SsrfBlockedError) throw e;
+    // DNS lookup failed: fail closed. A name that doesn't resolve is either
+    // misconfigured or an attempt to bypass the check by giving us a host
+    // that has no public address. Either way, refuse.
+    throw new SsrfBlockedError(`dns lookup failed: ${(e as Error).message}`, rawUrl);
   }
 }
