@@ -194,15 +194,13 @@ export async function executeTool(name: string, args: unknown, ctx: ToolContext)
     case 'search_requests': {
       const { query } = args as { query: string };
       const all = await requests.search(query);
-      return all
-        .slice(0, 20)
-        .map((r) => ({
-          id: r.id,
-          collectionId: r.collection_id,
-          name: r.name,
-          method: r.method,
-          url: r.url,
-        }));
+      return all.slice(0, 20).map((r) => ({
+        id: r.id,
+        collectionId: r.collection_id,
+        name: r.name,
+        method: r.method,
+        url: r.url,
+      }));
     }
     default:
       throw new Error(`Unknown tool: ${name}`);
