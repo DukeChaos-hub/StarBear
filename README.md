@@ -10,7 +10,7 @@
 
 StarBear is a local-first tool for designing, testing, and automating HTTP APIs. The **AI Test Agent** can inspect your collections, run requests, and execute test suites from a natural-language goal.
 
-It is not a clone of Postman / Apifox / Apipost — those are mature products built by 30–100+ engineer teams over 5–10 years. StarBear focuses on the developer-daily workflow with an opinionated, fast UI and an AI surface that is actually useful, not a bolted-on chatbot.
+It is not a clone of Postman or any other incumbent — those are mature products built by 30–100+ engineer teams over 5–10 years. StarBear focuses on the developer-daily workflow with an opinionated, fast UI and an AI surface that is actually useful, not a bolted-on chatbot.
 
 ## Why
 

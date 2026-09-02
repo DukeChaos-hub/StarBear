@@ -10,7 +10,7 @@
 
 **StarBear** is an **AI-Native, open-source API client and testing tool** with a relentless focus on developer ergonomics and AI-driven automation.
 
-It is not a feature-for-feature copy of Postman / Apifox / Apipost. Those are mature products built by 30–100+ engineer teams over 5–10 years. StarBear's v1 commits to a smaller, sharply defined surface area that a solo or small-team contributor can ship, maintain, and evolve.
+It is not a feature-for-feature copy of Postman or any other incumbent API tooling. Those products are mature, built by 30–100+ engineer teams over 5–10 years. StarBear's v1 commits to a smaller, sharply defined surface area that a solo or small-team contributor can ship, maintain, and evolve.
 
 ### 1.1 The one-line pitch
 

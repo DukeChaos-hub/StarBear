@@ -107,3 +107,27 @@ export interface AiSettingsRow {
   master_key_check: string | null;
   updated_at: number;
 }
+
+export interface MockServerRow {
+  id: string;
+  name: string;
+  description: string | null;
+  base_path: string;
+  status: string;
+  created_at: number;
+  updated_at: number;
+}
+
+export interface MockResponseRow {
+  id: string;
+  server_id: string;
+  method: string;
+  path_pattern: string;
+  status: number;
+  headers: string | null;
+  body: string | null;
+  delay_ms: number;
+  sort_order: number;
+  created_at: number;
+  updated_at: number;
+}

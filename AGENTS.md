@@ -6,7 +6,7 @@ This file is consumed by OpenCode, Codex, Cursor, Aider, Devin, Gemini CLI, Clau
 
 ## What this project is
 
-StarBear is an AI-Native, open-source API client and testing tool (think Postman / Apifox, with an LLM agent that can drive requests and test runs on your behalf). It is local-first, BYOK (bring your own AI key), and ships as a Next.js 15 monolith backed by SQLite.
+StarBear is an AI-Native, open-source API client and testing tool (think Postman, with an LLM agent that can drive requests and test runs on your behalf). It is local-first, BYOK (bring your own AI key), and ships as a Next.js 15 monolith backed by SQLite.
 
 **Spec:** `docs/superpowers/specs/2026-09-01-starbear-v1-design.md`
 **Plan:** `docs/superpowers/plans/2026-09-01-starbear-v1.md` (13 phases, ~100 tasks)

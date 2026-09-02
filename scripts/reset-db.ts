@@ -9,6 +9,8 @@
 import { exec, migrate, closeDb } from '../src/lib/db/client';
 
 const DROP_ORDER = [
+  'mock_responses',
+  'mock_servers',
   'test_run_steps',
   'test_runs',
   'ai_messages',
