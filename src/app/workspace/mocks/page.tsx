@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
+import { ConfirmDialog } from '@/components/ui/confirm-dialog';
 import { cn } from '@/lib/utils/cn';
 
 interface MockServer {
@@ -88,7 +89,6 @@ export default function MocksPage() {
   };
 
   const deleteServer = async (id: string) => {
-    if (!confirm('Delete this mock server and all its responses?')) return;
     await fetch(`/api/mock-servers/${id}`, { method: 'DELETE' });
     if (selectedId === id) setSelectedId(null);
     await refresh();
@@ -96,7 +96,6 @@ export default function MocksPage() {
 
   const deleteResponse = async (rid: string) => {
     if (!selectedId) return;
-    if (!confirm('Delete this response?')) return;
     await fetch(`/api/mock-servers/${selectedId}/responses/${rid}`, { method: 'DELETE' });
     setResponses((r) => r.filter((x) => x.id !== rid));
   };
@@ -160,15 +159,22 @@ export default function MocksPage() {
               >
                 {s.status}
               </Badge>
-              <Button
-                size="icon"
-                variant="ghost"
-                className="h-6 w-6 opacity-0 group-hover:opacity-100"
-                onClick={() => void deleteServer(s.id)}
-                aria-label="Delete server"
-              >
-                <Trash2 className="h-3 w-3" />
-              </Button>
+              <ConfirmDialog
+                title="Delete mock server?"
+                description={`"${s.name}" and all its responses will be permanently removed.`}
+                onConfirm={() => deleteServer(s.id)}
+                trigger={(open) => (
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    className="h-6 w-6 opacity-0 group-hover:opacity-100"
+                    onClick={open}
+                    aria-label="Delete server"
+                  >
+                    <Trash2 className="h-3 w-3" />
+                  </Button>
+                )}
+              />
             </div>
           ))}
         </div>
@@ -251,15 +257,22 @@ function ResponseCard({ response, onDelete }: { response: MockResponse; onDelete
         {response.delay_ms > 0 && (
           <span className="text-[10px] text-muted-foreground">{response.delay_ms}ms</span>
         )}
-        <Button
-          size="icon"
-          variant="ghost"
-          className="h-6 w-6"
-          onClick={onDelete}
-          aria-label="Delete response"
-        >
-          <Trash2 className="h-3 w-3" />
-        </Button>
+        <ConfirmDialog
+          title="Delete response?"
+          description={`${response.method} ${response.path_pattern} will be removed.`}
+          onConfirm={onDelete}
+          trigger={(open) => (
+            <Button
+              size="icon"
+              variant="ghost"
+              className="h-6 w-6"
+              onClick={open}
+              aria-label="Delete response"
+            >
+              <Trash2 className="h-3 w-3" />
+            </Button>
+          )}
+        />
       </div>
       {response.body && (
         <pre className="mt-1 max-h-32 overflow-auto rounded bg-muted/50 p-1.5 font-mono text-[10px]">

@@ -32,6 +32,27 @@ export async function setActive(id: string): Promise<void> {
   run(`UPDATE environments SET is_active = 1, updated_at = ? WHERE id = ?`, [now, id]);
 }
 
+export async function update(
+  id: string,
+  patch: { name?: string; isActive?: boolean },
+): Promise<void> {
+  const fields: string[] = [];
+  const values: unknown[] = [];
+  if (patch.name !== undefined) {
+    fields.push('name = ?');
+    values.push(patch.name);
+  }
+  if (patch.isActive !== undefined) {
+    fields.push('is_active = ?');
+    values.push(patch.isActive ? 1 : 0);
+  }
+  if (fields.length === 0) return;
+  fields.push('updated_at = ?');
+  values.push(Date.now());
+  values.push(id);
+  run(`UPDATE environments SET ${fields.join(', ')} WHERE id = ?`, values);
+}
+
 export async function remove(id: string): Promise<void> {
   run(`DELETE FROM environments WHERE id = ?`, [id]);
 }

@@ -1,8 +1,14 @@
-import { NextRequest, NextResponse } from 'next/server';
 import * as envs from '@/lib/db/repositories/environments';
+import { createResourceRouter } from '@/lib/api/route-helpers';
+import { z } from 'zod';
 
-export async function DELETE(_req: NextRequest, ctx: { params: Promise<{ id: string }> }) {
-  const { id } = await ctx.params;
-  await envs.remove(id);
-  return NextResponse.json({ ok: true });
-}
+const Patch = z.object({
+  name: z.string().min(1).optional(),
+  isActive: z.boolean().optional(),
+});
+
+export const { PATCH, DELETE } = createResourceRouter({
+  repo: envs,
+  patchSchema: Patch,
+  includeGet: false,
+});

@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
+import { ConfirmDialog } from '@/components/ui/confirm-dialog';
 import { cn } from '@/lib/utils/cn';
 
 interface TestCase {
@@ -153,7 +154,6 @@ export default function TestsPage() {
   };
 
   const deleteCase = async (id: string) => {
-    if (!confirm('Delete this test case?')) return;
     await fetch(`/api/test-cases/${id}`, { method: 'DELETE' });
     if (selected?.id === id) setSelected(null);
     await refresh();
@@ -211,15 +211,22 @@ export default function TestsPage() {
               >
                 <Play className="h-3 w-3" />
               </Button>
-              <Button
-                size="icon"
-                variant="ghost"
-                className="h-6 w-6"
-                onClick={() => void deleteCase(c.id)}
-                aria-label="Delete"
-              >
-                <Trash2 className="h-3 w-3" />
-              </Button>
+              <ConfirmDialog
+                title="Delete test case?"
+                description={`"${c.name}" will be permanently removed. This cannot be undone.`}
+                onConfirm={() => deleteCase(c.id)}
+                trigger={(open) => (
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    className="h-6 w-6"
+                    onClick={open}
+                    aria-label="Delete"
+                  >
+                    <Trash2 className="h-3 w-3" />
+                  </Button>
+                )}
+              />
             </div>
           ))}
         </div>
