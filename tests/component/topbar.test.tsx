@@ -5,7 +5,13 @@ import userEvent from '@testing-library/user-event';
 // Hoist the mock factories so vi.mock can reference them before they exist.
 const { mockUsePathname, mockRouter } = vi.hoisted(() => ({
   mockUsePathname: vi.fn(() => '/workspace'),
-  mockRouter: { push: vi.fn(), replace: vi.fn(), back: vi.fn(), refresh: vi.fn(), prefetch: vi.fn() },
+  mockRouter: {
+    push: vi.fn(),
+    replace: vi.fn(),
+    back: vi.fn(),
+    refresh: vi.fn(),
+    prefetch: vi.fn(),
+  },
 }));
 
 vi.mock('next/navigation', () => ({
