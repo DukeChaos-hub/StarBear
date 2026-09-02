@@ -2,6 +2,40 @@
 
 All notable changes to StarBear are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.0] - 2026-09-02
+
+First public release. **35 commits on `main`**, **127/127 tests pass** (104 unit/integration + 23 component), **6/6 Playwright E2E pass**, **TypeScript strict + noUncheckedIndexedAccess**, **Node 24 / `node:sqlite` / MIT licensed**.
+
+### Highlights
+
+- **HTTP engine** — `{{var}}` interpolation (deep), SSRF guard (`strict` / `allow-local`), undici-backed `sendRequest` with bearer / basic / apikey auth, 30 s default timeout.
+- **Data layer** — 10 tables, 9 repositories, raw SQL via Node 24's built-in `node:sqlite`, Drizzle Kit for migration generation only.
+- **19 API routes** — collections, requests, environments, env-variables, test-cases, test-runs, the live `/api/request` executor, `/api/tests` and `/api/tests/suite`, and `/api/ai-agent` for SSE streaming.
+- **Test engine** — 6 assertion types (`status` / `latency` / `header` / `jsonpath` / `schema` / `script`), runner, suite report, persisted run history.
+- **AI provider layer** — AES-256-GCM key encryption (per-install master key at `~/.starbear/master.key` or `STARBEAR_MASTER_KEY`), 4 vendor adapters (OpenAI / Anthropic / Google / DeepSeek) on the Vercel AI SDK v4.
+- **AI agent** — 5 tools (`list_collections`, `search_requests`, `send_request`, `run_test_case`, `save_request`), bounded 10-step runtime, SSE streaming endpoint.
+- **Complete UI** at `/workspace` — AppShell with collapsible sidebar, env switcher, `⌘K` command palette, request editor (4 tabs), response viewer (pretty / raw / preview + headers), environments editor, tests UI with 6 assertion editors, AI chat right-pane with tool-call cards, fullscreen `/workspace/agent`, per-provider settings UI.
+- **Tests** — 104 backend (Vitest, `pool: 'forks'` for `node:sqlite` shim), 23 component (`@testing-library/react` + jsdom), 6 E2E (Playwright + Chromium).
+- **Docs** — `docs/user-guide.md`, `docs/architecture.md`, `docs/development/setup.md`, refreshed `README.md` / `AGENTS.md` / `CONTRIBUTING.md` / `docs/STATUS.md`.
+
+### Known sharp edges
+
+- Plan says Node 20; the project is on **Node 24** (required for `node:sqlite` ≥ 22.5). `.nvmrc` is at 24.
+- `next lint` is disabled in `next.config.ts` because ESLint 9 + Next 15's `eslint-config-next` patcher is broken on Windows. CI runs `pnpm lint` separately.
+- `pool: 'forks'` is required in `vitest.config.ts`; without it the CJS shim fails to load under Vite.
+- Component tests require `esbuild.jsx: 'automatic'` in `vitest.config.ts` (Next uses `jsx: 'preserve'` in `tsconfig.json`).
+- The AI chat UI keeps conversation history in component state; reloading `/workspace/agent` starts a new thread. Server-side history is stored but not yet surfaced.
+
+### Out of scope (deferred)
+
+- AI conversation history in UI
+- Component tests beyond the existing 23
+- OpenAPI import
+- Mock server, scheduled runs
+- Native desktop packaging
+
+See the full per-phase history below in [Unreleased] and the [Unreleased] section will be cleared on the next release prep.
+
 ## [Unreleased]
 
 ### Added
