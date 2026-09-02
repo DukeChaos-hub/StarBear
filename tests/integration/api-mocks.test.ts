@@ -6,11 +6,16 @@ import { migrate, closeDb } from '@/lib/db/client';
 
 // Route handlers are imported lazily so STARBEAR_DB is set before they
 // touch the DB. We invoke them with NextRequest objects directly.
+// `path` is string | string[] to support catch-all routes like
+// /api/mock/[id]/[...path] whose params.path is an array of segments.
 async function call(
-  handler: (req: Request, ctx: { params: Promise<Record<string, string>> }) => Promise<Response>,
+  handler: (
+    req: Request,
+    ctx: { params: Promise<Record<string, string | string[]>> },
+  ) => Promise<Response>,
   url: string,
   init: RequestInit = {},
-  params: Record<string, string> = {},
+  params: Record<string, string | string[]> = {},
 ) {
   const req = new Request(`http://localhost${url}`, init);
   const res = await handler(req as never, { params: Promise.resolve(params) });
