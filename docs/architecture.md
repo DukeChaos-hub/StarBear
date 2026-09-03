@@ -290,7 +290,54 @@ We're currently at 92.8% line coverage, well above the floor.
 
 ---
 
-## 8. The UI shell
+## 8. The scheduler
+
+Schedules run test cases on a recurring interval without a separate
+worker process. Everything stays in the same Next.js process.
+
+```
+src/instrumentation.ts        ← Next 15 startup hook
+        │  on Node runtime
+        ▼
+src/lib/scheduler/boot.ts     ← ensureSchedulerStarted() (idempotent singleton)
+        │  setInterval(tick, 30_000)
+        ▼
+src/lib/scheduler/tick.ts     ← listDue(now) → runSuite(job) → markRun(id, runId, nextRunAt)
+        │
+        ▼
+src/lib/scheduler/next-run.ts ← pure function, used by both tick() and the API
+        │                       for first-run computation + PATCH-driven recompute
+        ▼
+src/lib/test-engine/suite-runner.ts (runSuite)  ← shared with /api/tests/suite
+```
+
+**Why `instrumentation.ts` and not a custom server.** Next 15 has stable
+support for `src/instrumentation.ts` — a hook Next calls once on server
+startup in each runtime. The `if (process.env.NEXT_RUNTIME !== 'nodejs')`
+guard makes it inert in the edge runtime and the browser. No need to
+swap `pnpm dev` / `pnpm start` to a custom `server.ts`.
+
+**In-flight dedupe.** `tick.ts` keeps a module-level `inFlight` set so a
+job that hasn't finished its previous run yet won't be re-entered. The
+manual `POST /api/schedules/[id]/run` bypasses that dedupe on purpose
+(it returns the result to the caller).
+
+**Failure isolation.** A single broken job is wrapped in a try/catch; the
+catch path still calls `markRun()` with an empty `runId` so the schedule
+advances to its next slot instead of looping every 30 s.
+
+**No external cron library.** The interval kinds are 4 pure cases:
+
+- `minutes` / `hours` — `from + N * unitMs`.
+- `days` at `HH:MM` — find the next `HH:MM` slot ≥ `from`, else `+N days`.
+- `weeks` on `weekday` at `HH:MM` — same idea, with weekday wrap-around
+  and `(N-1) * 7` extra days for `N > 1`.
+
+All four are unit-tested in `tests/unit/scheduler-next-run.test.ts`.
+
+---
+
+## 9. The UI shell
 
 `/workspace` is wrapped in a single `<AppShell>` that owns the layout:
 
@@ -315,7 +362,7 @@ search of collections/requests/environments.
 
 ---
 
-## 9. Why these choices
+## 10. Why these choices
 
 | Choice                             | Why                                                                                                     |
 | ---------------------------------- | ------------------------------------------------------------------------------------------------------- |
@@ -326,11 +373,12 @@ search of collections/requests/environments.
 | Vercel AI SDK                      | Streaming + multi-vendor support in one package.                                                        |
 | BYOK + AES-256-GCM                 | No server proxy, no telemetry, no per-user state.                                                       |
 | Radix primitives + custom Tailwind | Accessible defaults (focus, ARIA) without a heavy component lib.                                        |
-| No component tests (yet)           | Backend logic is fully tested; UI surfaces a thin shell. Tests would add CI cost without catching much. |
+| `instrumentation.ts` over a custom server | Official Next 15 startup hook; no script rewrites, no new build target.                         |
+| Pure-function `nextRunAt` over a cron lib | 4 cases cover 100% of real usage; no third-party regex parser, no surprise semantics.                |
 
 ---
 
-## 10. Where to extend
+## 11. Where to extend
 
 - **Add a new assertion type**: edit `src/lib/test-engine/types.ts`,
   add a case in `runAssertion` in `assertions.ts`, add a row in

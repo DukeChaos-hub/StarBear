@@ -131,3 +131,19 @@ export interface MockResponseRow {
   created_at: number;
   updated_at: number;
 }
+
+export interface ScheduledJobRow {
+  id: string;
+  name: string;
+  test_case_ids: string;
+  interval_kind: string;
+  interval_value: number;
+  time_of_day: string | null;
+  weekday: number | null;
+  enabled: number;
+  next_run_at: number;
+  last_run_at: number | null;
+  last_run_id: string | null;
+  created_at: number;
+  updated_at: number;
+}

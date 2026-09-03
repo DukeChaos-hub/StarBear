@@ -28,11 +28,9 @@ First public release. **35 commits on `main`**, **127/127 tests pass** (104 unit
 
 ### Out of scope (deferred)
 
-- AI conversation history in UI
-- Component tests beyond the existing 23
-- OpenAPI import
-- Mock server, scheduled runs
 - Native desktop packaging
+- Response chaining
+- Team workspaces, shareable collection links
 
 See the full per-phase history below in [Unreleased] and the [Unreleased] section will be cleared on the next release prep.
 
@@ -111,6 +109,54 @@ See the full per-phase history below in [Unreleased] and the [Unreleased] sectio
 - `docs/development/setup.md` — prerequisites, install, configure, run, verify, troubleshooting.
 - `docs/development/index.md` — dev topic index.
 - README upgrade: feature parity with the actual surface, links to the new docs.
+
+### Added (Phase 12 — Component Tests + E2E, 2026-09-01)
+
+- 8 new `@testing-library/react` component tests for `RequestEditor`, `SaveDialog`, `ResponseViewer`, `Topbar` (totals 31).
+- 6 Playwright E2E specs under `tests/e2e/` covering shell navigation, the editor save flow, the env editor, the test runner, AI chat streaming, and the settings panel.
+
+### Added (v0.2.1 — Mock Server Backend, 2026-09-02)
+
+- `mock_servers` + `mock_responses` tables and their repositories.
+- Catch-all route `/api/mock/[id]/[...path]` with `{{var}}` interpolation, `delay_ms` support, and per-server base-path prefixing.
+- CRUD for `/api/mock-servers` and `/api/mock-servers/[id]/responses` (via `createResourceRouter`).
+- Fix for a real security bug: `node:dns` lookup errors were being swallowed by the SSRF guard, letting requests through to IPv6-only loopback aliases. The guard now fails closed.
+
+### Added (v0.2.2 — Mocks UI, 2026-09-02)
+
+- `/workspace/mocks` page with left list, response CRUD, and a live "Test" panel that hits the mock endpoint and shows the response.
+- New `Sidebar` entry pointing at `/workspace/mocks`.
+
+### Added (v0.2.3 — OpenAPI Import, 2026-09-02)
+
+- 3.0 / 3.1 spec parser in `src/lib/import/openapi.ts` (pure function, fully unit-tested) handling `$ref` resolution and 6 security schemes.
+- `POST /api/import/openapi/preview` and `/apply` routes.
+- `/workspace/import` page: paste a spec (or fetch by URL), see the parsed tree, choose target collection, click Import.
+- Re-uses the existing `requests` and `collections` tables — no new DB tables needed.
+
+### Added (v0.2.4 — AI Conversation History UI, 2026-09-02)
+
+- `GET /api/ai-conversations` (list), `DELETE /api/ai-conversations?id=…`, and `GET /api/ai-conversations/[id]/messages` (with parsed `toolCalls`).
+- `AgentChat` rewritten with `useFetch`: top-bar dropdown switches into past conversations; "New" button clears; `ConfirmDialog` for delete. Persisted messages re-render correctly (assistant text + `tool_calls` as separate bubbles).
+
+### Refactored (R1–R5, 2026-09-02)
+
+- **R1 — `createResourceRouter({ repo, patchSchema, idParam?, checkExistence?, includeGet? })`** factory in `src/lib/api/route-helpers.ts`. 7 `[id]/route.ts` files collapsed from 30–50 lines of boilerplate each to 4–7 line factory calls (~180 lines deleted). New `update()` method added to `environments` repo.
+- **R2 — `useFetch<T>(url|null)` and `useApiCall(url, method)`** hooks in `src/lib/hooks/use-fetch.ts` with `AbortController` and per-call `url` / `method` / `body` override. `/workspace/environments` and `/workspace/agent` now use them.
+- **R3 — `ConfirmDialog`** (render-prop trigger, busy state) in `src/components/ui/confirm-dialog.tsx`. Replaced 3 `window.confirm()` sites (1 in `/workspace/tests`, 2 in `/workspace/mocks`).
+- **R4 — `runSuite()` extracted to `src/lib/test-engine/suite-runner.ts`** so the API and the background scheduler can call the same code path with no duplication.
+- **R5 — dead code cleanup**, fixed `useFetch` so its `refresh` callback no longer causes a `react-hooks/refs` warning.
+
+### Added (v0.2.5 — Scheduled Test Runs, 2026-09-03)
+
+- `scheduled_jobs` table + repository with `listDue(now)` and `markRun()`.
+- `src/lib/scheduler/{next-run,tick,boot}.ts` — pure `nextRunAt()` (minutes / hours / days-at-HH:MM / weeks-on-weekday-at-HH:MM), `tick()` that runs due jobs and bumps the schedule, idempotent `ensureSchedulerStarted()` singleton.
+- `src/instrumentation.ts` Next.js startup hook that calls `ensureSchedulerStarted()` on the Node runtime (no custom server needed).
+- `GET/POST /api/schedules`, `GET/PATCH/DELETE /api/schedules/[id]`, `POST /api/schedules/[id]/run`, `GET /api/schedules/[id]/runs`. PATCH recomputes `next_run_at` when the interval knobs change.
+- `/workspace/schedules` list (with enabled toggle, manual "Run now", delete, last/next-run indicators), `/workspace/schedules/new` create form (test-case multi-select + interval picker), `/workspace/schedules/[id]` detail/edit with right-side "Recent runs" panel.
+- New `Sidebar` entry "Schedules".
+- 24 new unit tests (20 for `nextRunAt`, 4 for `tick`) and 11 new integration tests covering full CRUD + manual run + run history.
+- Total: **42+ commits**, **227/227 tests pass** (was 192), typecheck / lint / build clean.
 
 ### Fixed
 

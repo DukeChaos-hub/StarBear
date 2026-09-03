@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import {
   Beaker,
   Bot,
+  Clock,
   Folder,
   Server,
   Settings as SettingsIcon,
@@ -26,6 +27,7 @@ const NAV: NavItem[] = [
   { label: 'Overview', href: '/workspace', icon: Folder },
   { label: 'Environments', href: '/workspace/environments', icon: Variable },
   { label: 'Tests', href: '/workspace/tests', icon: TestTube2 },
+  { label: 'Schedules', href: '/workspace/schedules', icon: Clock },
   { label: 'Mocks', href: '/workspace/mocks', icon: Server },
   { label: 'Import', href: '/workspace/import', icon: Upload },
   { label: 'AI Agent', href: '/workspace/agent', icon: Bot },

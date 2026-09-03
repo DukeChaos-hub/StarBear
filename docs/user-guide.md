@@ -208,10 +208,58 @@ The agent has access to **5 tools**:
 - _"Find every request whose URL contains `/admin/` and tell me their methods."_
 - _"Run all test cases."_
 
-The chat is **stateless across page reloads** for now — the server
-persists messages, but the UI keeps the conversation in component state.
-Reopening `/workspace/agent` starts a fresh thread. (History loading
-is on the roadmap.)
+The chat persists conversations across reloads. The top bar shows a
+conversation id; the dropdown next to it lists every saved conversation
+(sorted newest first) and lets you switch into one. Hit **New** to start
+a fresh thread, or **Delete** to remove an old one. Each saved
+conversation's messages (assistant text + tool calls) re-render exactly
+as they were when you switch back into it.
+
+---
+
+## 5. Schedules
+
+Path: **`/workspace/schedules`**.
+
+A schedule runs a set of saved test cases on a recurring interval. Useful
+for smoke-testing a staging environment on every deploy, pinging a health
+endpoint every five minutes, or running a regression suite overnight.
+
+```
+┌──────────────────────────────────────────────────────────┐
+│ Schedules                              [+ New schedule]  │
+├──────────────────────────────────────────────────────────┤
+│ Nightly smoke    daily at 02:00   last: 13h ago          │
+│                  [ 5 cases]        next: in 11h   [▶][🗑]│
+├──────────────────────────────────────────────────────────┤
+│ Health ping      every 5 min       last: 2m ago           │
+│                  [ 1 case ]        next: in 3m    [▶][🗑]│
+└──────────────────────────────────────────────────────────┘
+```
+
+**Create form** (`/workspace/schedules/new`):
+
+- **Name** — free text.
+- **Interval kind** — `minutes` / `hours` / `days` / `weeks`.
+- **Interval value** — 1–60.
+- **Time of day** — required for `days` and `weeks` (e.g. `02:00`).
+- **Weekday** — required for `weeks`.
+- **Test cases** — multi-select from the saved test cases.
+
+**Per-schedule actions:**
+
+- **Enabled** pill in the list toggles the schedule on/off without deleting it.
+- **▶ Run now** fires the suite once and records the run.
+- **🗑** removes the schedule (with confirmation).
+- Open a schedule to edit any field; changing the interval auto-recomputes `next_run_at`.
+
+**Run history** sits in the right pane of the detail page. Each row is a
+`passed` / `failed` / `errored` pill plus a link to the full run report.
+
+The scheduler runs in the same process as the app — the
+`src/instrumentation.ts` hook starts a 30s tick on server boot, so
+schedules only fire while the app is running. That's intentional for a
+local-first tool: nothing runs when the server is stopped.
 
 ---
 
